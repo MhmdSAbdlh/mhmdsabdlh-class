@@ -20,3 +20,8 @@ ADD A DOCK PANEL TO YOU FRAME
   1. dock.addActionLis1(EVENT1) // ADD ACTION LISTENER TO THE FIRST ITEM
   2. dock.addActionLis2(EVENT2) // ADD ACTION LISTENER TO THE SECONG ITEM
   3. dock.addActionLis3(EVENT3) // ADD ACTION LISTENER TO THE THIRD ITEM
+
+
+-PREVIEW:
+![PHOTO1](https://raw.githubusercontent.com/MhmdSAbdlh/Dock/main/preview/1.png)
+![PHOTO2](https://raw.githubusercontent.com/MhmdSAbdlh/Dock/main/preview/2.png)
