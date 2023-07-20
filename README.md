@@ -12,9 +12,9 @@ ADD A DOCK PANEL TO YOU FRAME
  * THE METHOD setHyW is for set the size of the icon
 
 -BORDER:
-  	1. Color borderColor = Color.black; // BORDER COLOR
-	2. int borderThickness = 2; //BORDER THICKNESS
-	3. dock.setBorder(new RoundedCornerBorder(borderColor, borderThickness));
+1. Color borderColor = Color.black; // BORDER COLOR
+2. int borderThickness = 2; //BORDER THICKNESS
+3. dock.setBorder(new RoundedCornerBorder(borderColor, borderThickness));
 
 -EVENT:
   1. dock.addActionLis1(EVENT1) // ADD ACTION LISTENER TO THE FIRST ITEM
