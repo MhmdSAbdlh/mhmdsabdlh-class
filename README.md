@@ -4,11 +4,13 @@ JAVA DOCK PANEL
 ADD A DOCK PANEL TO YOU FRAME
 
 -DOCK:
-  1. Dock dock= new Dock(RADUIS_SIZE, "ITEM1", "ITEM2", "ITEM3");
+  1. Dock dock= new Dock(RADUIS_SIZE);
   2. dock.setHyW(30);
+  3. dock.setIcon(icon1, icon2, icon3, icon4);
+  4. dock.setToolText("text1","text2", "text3", "text4");
      
  * RADUIS SIZE IS AN INT
- * ITEM1, ITEM2, ITEM3 IS A STRING WICH NEED TO HAVE THE SAME NAME AS THE IMAGES
+ * icon1, icon2, icon3, icon4 is the ImageIcon for the 4 buttons
  * THE METHOD setHyW is for set the size of the icon
 
 -BORDER:
@@ -20,6 +22,7 @@ ADD A DOCK PANEL TO YOU FRAME
   1. dock.addActionLis1(EVENT1) // ADD ACTION LISTENER TO THE FIRST ITEM
   2. dock.addActionLis2(EVENT2) // ADD ACTION LISTENER TO THE SECONG ITEM
   3. dock.addActionLis3(EVENT3) // ADD ACTION LISTENER TO THE THIRD ITEM
+  4. dock.addActionLis4(EVENT4) // ADD ACTION LISTENER TO THE FOURTH ITEM
 
 
 -PREVIEW:
