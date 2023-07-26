@@ -17,22 +17,24 @@ import javax.swing.JPanel;
 
 public class Dock extends JPanel {
 	int cornerRadius;
-	private JButton item1, item2, item3;
+	private JButton item1, item2, item3, item4;
 	private int h = 40;
-	private ImageIcon img1, img2, img3;
+	private ImageIcon img1, img2, img3, img4;
 
-	public Dock(int cornerRadius, String btn1, String btn2, String btn3) {
+	public Dock(int cornerRadius) {
 		this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		this.cornerRadius = cornerRadius;
 		setOpaque(false); // Make the panel transparent
 
-		img1 = new ImageIcon(getClass().getResource(btn1 + ".png"));
-		img2 = new ImageIcon(getClass().getResource(btn2 + ".png"));
-		img3 = new ImageIcon(getClass().getResource(btn3 + ".png"));
+		img1 = new ImageIcon();
+		img2 = new ImageIcon();
+		img3 = new ImageIcon();
+		img4 = new ImageIcon();
 
 		item1 = new JButton(new ImageIcon(getScaledImage(img1.getImage(), h, h)));
 		item2 = new JButton(new ImageIcon(getScaledImage(img2.getImage(), h, h)));
 		item3 = new JButton(new ImageIcon(getScaledImage(img3.getImage(), h, h)));
+		item4 = new JButton(new ImageIcon(getScaledImage(img4.getImage(), h, h)));
 
 		item1.setContentAreaFilled(false);
 		item1.setBorderPainted(false);
@@ -43,10 +45,14 @@ public class Dock extends JPanel {
 		item3.setContentAreaFilled(false);
 		item3.setBorderPainted(false);
 		item3.setFocusPainted(false);
+		item4.setContentAreaFilled(false);
+		item4.setBorderPainted(false);
+		item4.setFocusPainted(false);
 
 		item1.setSize(h, h);
 		item2.setSize(h, h);
 		item3.setSize(h, h);
+		item4.setSize(h, h);
 
 		item1.addMouseListener(new MouseAdapter() {
 			@Override
@@ -117,10 +123,47 @@ public class Dock extends JPanel {
 				}
 			}
 		});
+		item4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				for (int i = 0; i < 5; i++) {
+					item4.setLocation(item4.getX(), item4.getY() - i);
+					try {
+						Thread.sleep(25);
+					} catch (InterruptedException e1) {
+					}
+				}
+			}
 
+			@Override
+			public void mouseExited(MouseEvent e) {
+				for (int i = 0; i < 5; i++) {
+					item4.setLocation(item4.getX(), item4.getY() + i);
+					try {
+						Thread.sleep(25);
+					} catch (InterruptedException e1) {
+					}
+				}
+			}
+		});
 		this.add(item1);
 		this.add(item2);
 		this.add(item3);
+		this.add(item4);
+	}
+
+	public void setIcon(ImageIcon icon, ImageIcon icon2, ImageIcon icon3, ImageIcon icon4) {
+		img1 = icon;
+		img2 = icon2;
+		img3 = icon3;
+		img4 = icon4;
+	}
+
+	public void setToolText(String text1, String text2, String text3, String text4) {
+		item1.setToolTipText(text1);
+		item2.setToolTipText(text2);
+		item3.setToolTipText(text3);
+		item4.setToolTipText(text4);
 	}
 
 	public void setHyW(int height) {
@@ -129,9 +172,11 @@ public class Dock extends JPanel {
 		item1.setSize(h, h);
 		item2.setSize(h, h);
 		item3.setSize(h, h);
+		item4.setSize(h, h);
 		item1.setIcon(new ImageIcon(getScaledImage(img1.getImage(), h, h)));
 		item2.setIcon(new ImageIcon(getScaledImage(img2.getImage(), h, h)));
 		item3.setIcon(new ImageIcon(getScaledImage(img3.getImage(), h, h)));
+		item4.setIcon(new ImageIcon(getScaledImage(img4.getImage(), h, h)));
 	}
 
 	public void addActionLis1(ActionListener al) {
@@ -144,6 +189,10 @@ public class Dock extends JPanel {
 
 	public void addActionLis3(ActionListener al) {
 		item3.addActionListener(al);
+	}
+
+	public void addActionLis4(ActionListener al) {
+		item4.addActionListener(al);
 	}
 
 	private Image getScaledImage(Image srcImg, int w, int h) {
