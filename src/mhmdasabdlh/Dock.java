@@ -1,5 +1,6 @@
 package mhmdasabdlh;
 
+import java.awt.AlphaComposite;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -57,99 +58,67 @@ public class Dock extends JPanel {
 		item1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				for (int i = 0; i < 5; i++) {
-					item1.setLocation(item1.getX(), item1.getY() - i);
-					try {
-						Thread.sleep(25);
-					} catch (InterruptedException e1) {
-					}
-				}
+				item1.setIcon(new ImageIcon(changeOpacity(getScaledImage(img1.getImage(), h, h), 0.35f)));
+
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				for (int i = 0; i < 5; i++) {
-					item1.setLocation(item1.getX(), item1.getY() + i);
-					try {
-						Thread.sleep(25);
-					} catch (InterruptedException e1) {
-					}
-				}
+				item1.setIcon(new ImageIcon(changeOpacity(getScaledImage(img1.getImage(), h, h), 1f)));
 			}
 		});
 		item2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				for (int i = 0; i < 5; i++) {
-					item2.setLocation(item2.getX(), item2.getY() - i);
-					try {
-						Thread.sleep(25);
-					} catch (InterruptedException e1) {
-					}
-				}
+				item2.setIcon(new ImageIcon(changeOpacity(getScaledImage(img2.getImage(), h, h), 0.35f)));
+
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				for (int i = 0; i < 5; i++) {
-					item2.setLocation(item2.getX(), item2.getY() + i);
-					try {
-						Thread.sleep(25);
-					} catch (InterruptedException e1) {
-					}
-				}
+				item2.setIcon(new ImageIcon(changeOpacity(getScaledImage(img2.getImage(), h, h), 1f)));
 			}
 		});
 		item3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				for (int i = 0; i < 5; i++) {
-					item3.setLocation(item3.getX(), item3.getY() - i);
-					try {
-						Thread.sleep(25);
-					} catch (InterruptedException e1) {
-					}
-				}
+				item3.setIcon(new ImageIcon(changeOpacity(getScaledImage(img3.getImage(), h, h), 0.35f)));
+
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				for (int i = 0; i < 5; i++) {
-					item3.setLocation(item3.getX(), item3.getY() + i);
-					try {
-						Thread.sleep(25);
-					} catch (InterruptedException e1) {
-					}
-				}
+				item3.setIcon(new ImageIcon(changeOpacity(getScaledImage(img3.getImage(), h, h), 1f)));
 			}
 		});
 		item4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				for (int i = 0; i < 5; i++) {
-					item4.setLocation(item4.getX(), item4.getY() - i);
-					try {
-						Thread.sleep(25);
-					} catch (InterruptedException e1) {
-					}
-				}
+				item4.setIcon(new ImageIcon(changeOpacity(getScaledImage(img4.getImage(), h, h), 0.35f)));
+
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				for (int i = 0; i < 5; i++) {
-					item4.setLocation(item4.getX(), item4.getY() + i);
-					try {
-						Thread.sleep(25);
-					} catch (InterruptedException e1) {
-					}
-				}
+				item4.setIcon(new ImageIcon(changeOpacity(getScaledImage(img4.getImage(), h, h), 1f)));
 			}
 		});
+
 		this.add(item1);
 		this.add(item2);
 		this.add(item3);
 		this.add(item4);
+	}
+
+	// Method to change the opacity of an image
+	private Image changeOpacity(Image srcImage, float opacity) {
+		BufferedImage bufferedImage = new BufferedImage(srcImage.getWidth(null), srcImage.getHeight(null),
+				BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2 = bufferedImage.createGraphics();
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity)); // Set opacity level
+		g2.drawImage(srcImage, 0, 0, null);
+		g2.dispose();
+		return bufferedImage;
 	}
 
 	public void setIcon(ImageIcon icon, ImageIcon icon2, ImageIcon icon3, ImageIcon icon4) {
