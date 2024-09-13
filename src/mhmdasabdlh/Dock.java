@@ -1,16 +1,14 @@
 package mhmdasabdlh;
 
-import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,21 +19,24 @@ public class Dock extends JPanel {
 	private JButton item1, item2, item3, item4;
 	private int h = 40;
 	private ImageIcon img1, img2, img3, img4;
+	private Color dockColor;
 
 	public Dock(int cornerRadius) {
 		this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		this.cornerRadius = cornerRadius;
 		setOpaque(false); // Make the panel transparent
+		// Set a default color
+		this.dockColor = Color.white;
 
 		img1 = new ImageIcon();
 		img2 = new ImageIcon();
 		img3 = new ImageIcon();
 		img4 = new ImageIcon();
 
-		item1 = new JButton(new ImageIcon(getScaledImage(img1.getImage(), h, h)));
-		item2 = new JButton(new ImageIcon(getScaledImage(img2.getImage(), h, h)));
-		item3 = new JButton(new ImageIcon(getScaledImage(img3.getImage(), h, h)));
-		item4 = new JButton(new ImageIcon(getScaledImage(img4.getImage(), h, h)));
+		item1 = new JButton(new ImageIcon(ImageEffect.getScaledImage(img1.getImage(), h, h)));
+		item2 = new JButton(new ImageIcon(ImageEffect.getScaledImage(img2.getImage(), h, h)));
+		item3 = new JButton(new ImageIcon(ImageEffect.getScaledImage(img3.getImage(), h, h)));
+		item4 = new JButton(new ImageIcon(ImageEffect.getScaledImage(img4.getImage(), h, h)));
 
 		item1.setContentAreaFilled(false);
 		item1.setBorderPainted(false);
@@ -58,49 +59,53 @@ public class Dock extends JPanel {
 		item1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				item1.setIcon(new ImageIcon(changeOpacity(getScaledImage(img1.getImage(), h, h), 0.35f)));
-
+				item1.setIcon(new ImageIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img1.getImage(), h, h), 0.35f)));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				item1.setIcon(new ImageIcon(changeOpacity(getScaledImage(img1.getImage(), h, h), 1f)));
+				item1.setIcon(new ImageIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img1.getImage(), h, h), 1f)));
 			}
 		});
 		item2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				item2.setIcon(new ImageIcon(changeOpacity(getScaledImage(img2.getImage(), h, h), 0.35f)));
-
+				item2.setIcon(new ImageIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img2.getImage(), h, h), 0.35f)));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				item2.setIcon(new ImageIcon(changeOpacity(getScaledImage(img2.getImage(), h, h), 1f)));
+				item2.setIcon(new ImageIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img2.getImage(), h, h), 1f)));
 			}
 		});
 		item3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				item3.setIcon(new ImageIcon(changeOpacity(getScaledImage(img3.getImage(), h, h), 0.35f)));
-
+				item3.setIcon(new ImageIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img3.getImage(), h, h), 0.35f)));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				item3.setIcon(new ImageIcon(changeOpacity(getScaledImage(img3.getImage(), h, h), 1f)));
+				item3.setIcon(new ImageIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img3.getImage(), h, h), 1f)));
 			}
 		});
 		item4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				item4.setIcon(new ImageIcon(changeOpacity(getScaledImage(img4.getImage(), h, h), 0.35f)));
-
+				item4.setIcon(new ImageIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img4.getImage(), h, h), 0.35f)));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				item4.setIcon(new ImageIcon(changeOpacity(getScaledImage(img4.getImage(), h, h), 1f)));
+				item4.setIcon(new ImageIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img4.getImage(), h, h), 1f)));
 			}
 		});
 
@@ -108,17 +113,6 @@ public class Dock extends JPanel {
 		this.add(item2);
 		this.add(item3);
 		this.add(item4);
-	}
-
-	// Method to change the opacity of an image
-	private Image changeOpacity(Image srcImage, float opacity) {
-		BufferedImage bufferedImage = new BufferedImage(srcImage.getWidth(null), srcImage.getHeight(null),
-				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = bufferedImage.createGraphics();
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity)); // Set opacity level
-		g2.drawImage(srcImage, 0, 0, null);
-		g2.dispose();
-		return bufferedImage;
 	}
 
 	public void setIcon(ImageIcon icon, ImageIcon icon2, ImageIcon icon3, ImageIcon icon4) {
@@ -142,10 +136,10 @@ public class Dock extends JPanel {
 		item2.setSize(h, h);
 		item3.setSize(h, h);
 		item4.setSize(h, h);
-		item1.setIcon(new ImageIcon(getScaledImage(img1.getImage(), h, h)));
-		item2.setIcon(new ImageIcon(getScaledImage(img2.getImage(), h, h)));
-		item3.setIcon(new ImageIcon(getScaledImage(img3.getImage(), h, h)));
-		item4.setIcon(new ImageIcon(getScaledImage(img4.getImage(), h, h)));
+		item1.setIcon(new ImageIcon(ImageEffect.getScaledImage(img1.getImage(), h, h)));
+		item2.setIcon(new ImageIcon(ImageEffect.getScaledImage(img2.getImage(), h, h)));
+		item3.setIcon(new ImageIcon(ImageEffect.getScaledImage(img3.getImage(), h, h)));
+		item4.setIcon(new ImageIcon(ImageEffect.getScaledImage(img4.getImage(), h, h)));
 	}
 
 	public void addActionLis1(ActionListener al) {
@@ -164,17 +158,6 @@ public class Dock extends JPanel {
 		item4.addActionListener(al);
 	}
 
-	private Image getScaledImage(Image srcImg, int w, int h) {
-		BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = resizedImg.createGraphics();
-
-		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		g2.drawImage(srcImg, 0, 0, w, h, null);
-		g2.dispose();
-
-		return resizedImg;
-	}
-
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -188,9 +171,15 @@ public class Dock extends JPanel {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		// Draw the rounded rectangle with the specified corner radius
-		g2d.setColor(getBackground());
+		g2d.setColor(dockColor); // You can choose any color you prefer
 		g2d.fill(new RoundRectangle2D.Double(0, 0, width - 1, height - 1, cornerRadius, cornerRadius));
 
 		g2d.dispose();
+	}
+
+	// Method to dynamically change the color
+	public void setDockColor(Color newColor) {
+		this.dockColor = newColor; // Update the color
+		repaint(); // Repaint the component to reflect the color change
 	}
 }
