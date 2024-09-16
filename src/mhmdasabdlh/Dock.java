@@ -123,10 +123,10 @@ public class Dock extends JPanel {
 	}
 
 	public void setToolText(String text1, String text2, String text3, String text4) {
-		item1.setToolTipText(text1);
-		item2.setToolTipText(text2);
-		item3.setToolTipText(text3);
-		item4.setToolTipText(text4);
+		item1.setToolTipText(" " + text1 + " ");
+		item2.setToolTipText(" " + text2 + " ");
+		item3.setToolTipText(" " + text3 + " ");
+		item4.setToolTipText(" " + text4 + " ");
 	}
 
 	public void setHyW(int height) {
