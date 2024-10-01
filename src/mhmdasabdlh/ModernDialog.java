@@ -8,13 +8,23 @@ public class ModernDialog extends JDialog {
 
 	private JPanel buttonPanel;
 	private JLabel messageLabel;
+    private JLabel iconLabel;  // New label for the icon
 
-	public ModernDialog(JFrame parent, String closeMessage) {
+    // Enum to define icon types
+    public enum IconType {
+        WARNING, ERROR, INFO, QUESTION
+    }
+
+	public ModernDialog(JFrame parent, String closeMessage, IconType iconType) {
 		super(parent, "Exit Application", true);
 
 		// Customize dialog's look
 		this.setUndecorated(true); // Removes the default window frame
 		this.setLayout(new BorderLayout());
+
+        // Create icon label
+        iconLabel = new JLabel();
+        setIcon(iconType);  // Set the icon based on the type
 
 		// Apply rounded shape to the dialog
 		this.setShape(new RoundRectangle2D.Double(0, 0, 300, 150, 20, 20)); // Rounded corners
@@ -43,6 +53,7 @@ public class ModernDialog extends JDialog {
 		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
 		buttonPanel.setOpaque(false); // Transparent background for buttons
 
+        	panel.add(iconLabel, BorderLayout.NORTH);  // Icon on top
 		panel.add(messageLabel, BorderLayout.CENTER);
 		panel.add(buttonPanel, BorderLayout.SOUTH);
 		this.add(panel);
@@ -62,6 +73,25 @@ public class ModernDialog extends JDialog {
 		this.setFocusableWindowState(true);
 		this.requestFocusInWindow();
 	}
+
+    // Method to set the appropriate icon
+    private void setIcon(IconType iconType) {
+        switch (iconType) {
+            case WARNING:
+                iconLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
+                break;
+            case ERROR:
+                iconLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+                break;
+            case INFO:
+                iconLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
+                break;
+            case QUESTION:
+                iconLabel.setIcon(UIManager.getIcon("OptionPane.questionIcon"));
+                break;
+        }
+        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    }
 
 	// Adjusts the dialog's height based on the preferred size of the message label
 	private void adjustDialogSize() {
