@@ -19,21 +19,19 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-
 public class CalculatorPanel extends JPanel implements ActionListener {
 	private JTextField display;
 	private double result;
 	private String operator;
 	private boolean startOfNumber;
 	private String lastEntry;
-    @SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private JFrame parentFrame; // Reference to the parent frame
-
 
 	public CalculatorPanel(JFrame parentFrame) {
 		setLayout(new BorderLayout());
 
-        this.parentFrame = parentFrame;
+		this.parentFrame = parentFrame;
 		display = new JTextField("0");
 		display.setEditable(false);
 		display.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -115,10 +113,10 @@ public class CalculatorPanel extends JPanel implements ActionListener {
 			@Override
 			public void keyPressed(KeyEvent ke) {
 				// Check if 'Esc' key is pressed
-                if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-        			copyToClipboard(display.getText());
-                    parentFrame.dispose(); // Close the frame
-                } else if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					copyToClipboard(display.getText());
+					parentFrame.dispose(); // Close the frame
+				} else if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (!startOfNumber) {
 						calculate(Double.parseDouble(display.getText()));
 						operator = "=";
@@ -199,7 +197,7 @@ public class CalculatorPanel extends JPanel implements ActionListener {
 			if (number != 0) {
 				result /= number;
 			} else {
-				 JOptionPane.showMessageDialog(this, "Cannot divide by zero", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Cannot divide by zero", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			break;
 		case "=":
