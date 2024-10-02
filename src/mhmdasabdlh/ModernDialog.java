@@ -1,4 +1,5 @@
 package mhmdasabdlh;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -8,12 +9,12 @@ public class ModernDialog extends JDialog {
 
 	private JPanel buttonPanel;
 	private JLabel messageLabel;
-    private JLabel iconLabel;  // New label for the icon
+	private JLabel iconLabel; // New label for the icon
 
-    // Enum to define icon types
-    public enum IconType {
-        WARNING, ERROR, INFO, QUESTION
-    }
+	// Enum to define icon types
+	public enum IconType {
+		WARNING, ERROR, INFO, QUESTION
+	}
 
 	public ModernDialog(JFrame parent, String closeMessage, IconType iconType) {
 		super(parent, "Exit Application", true);
@@ -22,9 +23,9 @@ public class ModernDialog extends JDialog {
 		this.setUndecorated(true); // Removes the default window frame
 		this.setLayout(new BorderLayout());
 
-        // Create icon label
-        iconLabel = new JLabel();
-        setIcon(iconType);  // Set the icon based on the type
+		// Create icon label
+		iconLabel = new JLabel();
+		setIcon(iconType); // Set the icon based on the type
 
 		// Apply rounded shape to the dialog
 		this.setShape(new RoundRectangle2D.Double(0, 0, 300, 150, 20, 20)); // Rounded corners
@@ -53,7 +54,12 @@ public class ModernDialog extends JDialog {
 		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
 		buttonPanel.setOpaque(false); // Transparent background for buttons
 
-        	panel.add(iconLabel, BorderLayout.NORTH);  // Icon on top
+		// Spacing
+		iconLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0)); // Adds space below the icon
+		messageLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 8, 0)); // Adds space above and below the message
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0)); // Adds space above the button panel
+
+		panel.add(iconLabel, BorderLayout.NORTH); // Icon on top
 		panel.add(messageLabel, BorderLayout.CENTER);
 		panel.add(buttonPanel, BorderLayout.SOUTH);
 		this.add(panel);
@@ -65,45 +71,71 @@ public class ModernDialog extends JDialog {
 		// Set position
 		this.setLocationRelativeTo(parent);
 
+		// Inside the constructor, after the dialog size and location configuration
+		this.setOpacity(0f); // Set initial opacity to 0 (fully transparent)
+		Timer fadeInTimer = new Timer(10, null);
+		fadeInTimer.addActionListener(e -> {
+			float opacity = ModernDialog.this.getOpacity();
+			if (opacity < 0.95f) {
+				ModernDialog.this.setOpacity(opacity + 0.05f); // Increase opacity gradually
+			} else {
+				ModernDialog.this.setOpacity(1f); // Increase opacity gradually
+				fadeInTimer.stop(); // Stop timer when fully visible
+			}
+		});
+		fadeInTimer.start(); // Start fade-in effect
+
 		// Key listener to close the dialog on Esc key press
-		this.getRootPane().registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		this.getRootPane().registerKeyboardAction(e -> {
+			Timer fadeOutTimer = new Timer(10, null);
+			fadeOutTimer.addActionListener(e1 -> {
+				float opacity = ModernDialog.this.getOpacity();
+				if (opacity > 0.05f) {
+					ModernDialog.this.setOpacity(opacity - 0.05f); // Decrease opacity gradually
+				} else {
+					fadeOutTimer.stop(); // Stop timer when fully transparent
+					dispose(); // Dispose the dialog
+				}
+			});
+			fadeOutTimer.start(); // Start fade-out effect
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
 		// Request focus for the dialog
 		this.setFocusableWindowState(true);
 		this.requestFocusInWindow();
 	}
 
-    // Method to set the appropriate icon
-    private void setIcon(IconType iconType) {
-        switch (iconType) {
-            case WARNING:
-                iconLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
-                break;
-            case ERROR:
-                iconLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-                break;
-            case INFO:
-                iconLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
-                break;
-            case QUESTION:
-                iconLabel.setIcon(UIManager.getIcon("OptionPane.questionIcon"));
-                break;
-        }
-        iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-    }
+	// Method to set the appropriate icon
+	private void setIcon(IconType iconType) {
+		switch (iconType) {
+		case WARNING:
+			iconLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
+			break;
+		case ERROR:
+			iconLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
+			break;
+		case INFO:
+			iconLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
+			break;
+		case QUESTION:
+			iconLabel.setIcon(UIManager.getIcon("OptionPane.questionIcon"));
+			break;
+		}
+		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	}
 
 	// Adjusts the dialog's height based on the preferred size of the message label
 	private void adjustDialogSize() {
 		int messageHeight = messageLabel.getPreferredSize().height;
 		int buttonPanelHeight = buttonPanel.getPreferredSize().height;
+		int iconHeigh = iconLabel.getPreferredSize().height;
 
 		// Calculate preferred width based on the buttons
 		int totalButtonWidth = calculateTotalButtonWidth();
 		int messageWidth = messageLabel.getPreferredSize().width;
 
 		int dialogWidth = Math.max(totalButtonWidth, messageWidth) + 60; // Add padding
-		int dialogHeight = messageHeight + buttonPanelHeight + 60; // Add padding for margins
+		int dialogHeight = messageHeight + buttonPanelHeight + iconHeigh + 60; // Add padding for margins
 
 		this.setSize(dialogWidth, dialogHeight);
 
@@ -127,8 +159,18 @@ public class ModernDialog extends JDialog {
 		button.setForeground(Color.WHITE);
 		button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		button.addActionListener(e -> {
-			action.run();
-			dispose(); // Close dialog when action is performed
+			Timer fadeOutTimer = new Timer(10, null);
+			fadeOutTimer.addActionListener(e1 -> {
+				float opacity = ModernDialog.this.getOpacity();
+				if (opacity > 0.05f) {
+					ModernDialog.this.setOpacity(opacity - 0.05f); // Decrease opacity gradually
+				} else {
+					fadeOutTimer.stop(); // Stop timer when fully transparent
+					dispose(); // Dispose the dialog
+					action.run();
+				}
+			});
+			fadeOutTimer.start(); // Start fade-out effect
 		});
 		buttonPanel.add(button);
 		buttonPanel.revalidate(); // Refresh the button panel to show the new button
@@ -143,8 +185,18 @@ public class ModernDialog extends JDialog {
 		extraButton.setForeground(Color.WHITE);
 		extraButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		extraButton.addActionListener(e -> {
-			action.run();
-			dispose(); // Close dialog when action is performed
+			Timer fadeOutTimer = new Timer(10, null);
+			fadeOutTimer.addActionListener(e1 -> {
+				float opacity = ModernDialog.this.getOpacity();
+				if (opacity > 0.05f) {
+					ModernDialog.this.setOpacity(opacity - 0.05f); // Decrease opacity gradually
+				} else {
+					fadeOutTimer.stop(); // Stop timer when fully transparent
+					dispose(); // Dispose the dialog
+					action.run();
+				}
+			});
+			fadeOutTimer.start(); // Start fade-out effect
 		});
 		buttonPanel.add(extraButton);
 		buttonPanel.revalidate();
