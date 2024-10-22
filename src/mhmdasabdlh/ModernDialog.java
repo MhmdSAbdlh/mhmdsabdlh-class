@@ -10,6 +10,7 @@ public class ModernDialog extends JDialog {
 	private JPanel buttonPanel;
 	private JLabel messageLabel;
 	private JLabel iconLabel; // New label for the icon
+	private Color color;
 
 	// Enum to define icon types
 	public enum IconType {
@@ -41,6 +42,11 @@ public class ModernDialog extends JDialog {
 				// Set background color
 				g2.setColor(new Color(236, 236, 236));
 				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+				
+				// Set border color and thickness
+                g2.setColor(color); // Example border color
+                g2.setStroke(new BasicStroke(2)); // Example border thickness (3 pixels)
+                g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 20, 20); // Draw border with small padding
 			}
 		};
 		panel.setLayout(new BorderLayout());
@@ -178,6 +184,10 @@ public class ModernDialog extends JDialog {
 		adjustDialogSize(); // Adjust size when a new button is added
 	}
 
+	public void setColor(Color newColor) {
+		this.color = newColor;
+	}
+	
 	// Method to add an extra button (e.g., "Cancel" or other actions)
 	public void addExtraButton(String text, Color color, Runnable action) {
 		JButton extraButton = new JButton(text);
