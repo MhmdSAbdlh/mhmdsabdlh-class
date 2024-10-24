@@ -9,8 +9,9 @@ public class ModernDialog extends JDialog {
 
 	private JPanel buttonPanel;
 	private JLabel messageLabel;
-	private JLabel iconLabel; // New label for the icon
-	private Color color;
+	private JLabel iconLabel;
+	private String closeMessage;
+	private Color borderColor, panelColor, txtColor;
 
 	// Enum to define icon types
 	public enum IconType {
@@ -19,6 +20,8 @@ public class ModernDialog extends JDialog {
 
 	public ModernDialog(JFrame parent, String closeMessage, IconType iconType) {
 		super(parent, "Exit Application", true);
+		this.closeMessage = closeMessage; // Store the message
+		this.txtColor = Color.BLACK;
 
 		// Customize dialog's look
 		this.setUndecorated(true); // Removes the default window frame
@@ -40,21 +43,21 @@ public class ModernDialog extends JDialog {
 				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 				// Set background color
-				g2.setColor(new Color(236, 236, 236));
+				g2.setColor(panelColor);
 				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-				
+
 				// Set border color and thickness
-                g2.setColor(color); // Example border color
-                g2.setStroke(new BasicStroke(2)); // Example border thickness (3 pixels)
-                g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 20, 20); // Draw border with small padding
+				g2.setColor(borderColor); // Example border color
+				g2.setStroke(new BasicStroke(2)); // Example border thickness (3 pixels)
+				g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 20, 20); // Draw border with small padding
 			}
 		};
 		panel.setLayout(new BorderLayout());
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
 		// Add multiline support using HTML in JLabel
-		messageLabel = new JLabel("<html>" + closeMessage.replace("\n", "<br>") + "</html>", JLabel.CENTER);
-		messageLabel.setForeground(Color.black);
+		messageLabel = new JLabel("<html><font color='" + getHexColor(txtColor) + "'>"
+				+ closeMessage.replace("\n", "<br>") + "</font></html>", JLabel.CENTER);
 		messageLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
 		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
@@ -184,10 +187,30 @@ public class ModernDialog extends JDialog {
 		adjustDialogSize(); // Adjust size when a new button is added
 	}
 
-	public void setColor(Color newColor) {
-		this.color = newColor;
+	public void setBorderColor(Color newColor) {
+		this.borderColor = newColor;
 	}
-	
+
+	public void setColor(Color bgColor) {
+		this.panelColor = bgColor;
+	}
+
+	public void setTextColor(Color textC) {
+		this.txtColor = textC;
+		updateLabelText();
+	}
+
+	private void updateLabelText() {
+		if (txtColor != null && messageLabel != null) {
+			messageLabel.setText("<html><font color='" + getHexColor(txtColor) + "'>"
+					+ closeMessage.replace("\n", "<br>") + "</font></html>");
+		}
+	}
+
+	private String getHexColor(Color color) {
+		return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
+	}
+
 	// Method to add an extra button (e.g., "Cancel" or other actions)
 	public void addExtraButton(String text, Color color, Runnable action) {
 		JButton extraButton = new JButton(text);

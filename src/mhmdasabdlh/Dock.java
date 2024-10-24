@@ -33,10 +33,10 @@ public class Dock extends JPanel {
 		img3 = new ImageIcon();
 		img4 = new ImageIcon();
 
-		item1 = new JButton(new ImageIcon(ImageEffect.getScaledImage(img1.getImage(), h, h)));
-		item2 = new JButton(new ImageIcon(ImageEffect.getScaledImage(img2.getImage(), h, h)));
-		item3 = new JButton(new ImageIcon(ImageEffect.getScaledImage(img3.getImage(), h, h)));
-		item4 = new JButton(new ImageIcon(ImageEffect.getScaledImage(img4.getImage(), h, h)));
+		item1 = new JButton(ImageEffect.getScaledImage(img1.getImage(), h, h));
+		item2 = new JButton(ImageEffect.getScaledImage(img2.getImage(), h, h));
+		item3 = new JButton(ImageEffect.getScaledImage(img3.getImage(), h, h));
+		item4 = new JButton(ImageEffect.getScaledImage(img4.getImage(), h, h));
 
 		item1.setContentAreaFilled(false);
 		item1.setBorderPainted(false);
@@ -59,53 +59,53 @@ public class Dock extends JPanel {
 		item1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				item1.setIcon(new ImageIcon(
-						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img1.getImage(), h, h), 0.35f)));
+				item1.setIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img1.getImage(), h, h).getImage(), 0.35f));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				item1.setIcon(new ImageIcon(
-						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img1.getImage(), h, h), 1f)));
+				item1.setIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img1.getImage(), h, h).getImage(), 1f));
 			}
 		});
 		item2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				item2.setIcon(new ImageIcon(
-						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img2.getImage(), h, h), 0.35f)));
+				item2.setIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img2.getImage(), h, h).getImage(), 0.35f));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				item2.setIcon(new ImageIcon(
-						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img2.getImage(), h, h), 1f)));
+				item2.setIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img2.getImage(), h, h).getImage(), 1f));
 			}
 		});
 		item3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				item3.setIcon(new ImageIcon(
-						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img3.getImage(), h, h), 0.35f)));
+				item3.setIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img3.getImage(), h, h).getImage(), 0.35f));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				item3.setIcon(new ImageIcon(
-						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img3.getImage(), h, h), 1f)));
+				item3.setIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img3.getImage(), h, h).getImage(), 1f));
 			}
 		});
 		item4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				item4.setIcon(new ImageIcon(
-						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img4.getImage(), h, h), 0.35f)));
+				item4.setIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img4.getImage(), h, h).getImage(), 0.35f));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				item4.setIcon(new ImageIcon(
-						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img4.getImage(), h, h), 1f)));
+				item4.setIcon(
+						ImageEffect.changeOpacity(ImageEffect.getScaledImage(img4.getImage(), h, h).getImage(), 1f));
 			}
 		});
 
@@ -136,10 +136,10 @@ public class Dock extends JPanel {
 		item2.setSize(h, h);
 		item3.setSize(h, h);
 		item4.setSize(h, h);
-		item1.setIcon(new ImageIcon(ImageEffect.getScaledImage(img1.getImage(), h, h)));
-		item2.setIcon(new ImageIcon(ImageEffect.getScaledImage(img2.getImage(), h, h)));
-		item3.setIcon(new ImageIcon(ImageEffect.getScaledImage(img3.getImage(), h, h)));
-		item4.setIcon(new ImageIcon(ImageEffect.getScaledImage(img4.getImage(), h, h)));
+		item1.setIcon(ImageEffect.getScaledImage(img1.getImage(), h, h));
+		item2.setIcon(ImageEffect.getScaledImage(img2.getImage(), h, h));
+		item3.setIcon(ImageEffect.getScaledImage(img3.getImage(), h, h));
+		item4.setIcon(ImageEffect.getScaledImage(img4.getImage(), h, h));
 	}
 
 	public void addActionLis1(ActionListener al) {
