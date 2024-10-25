@@ -1,6 +1,8 @@
 package mhmdasabdlh;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
@@ -161,32 +163,6 @@ public class ModernDialog extends JDialog {
 		return totalWidth + (buttonPanel.getComponentCount() - 1) * 20; // Adding space between buttons
 	}
 
-	// Method to add a main button (e.g., "Yes", "No")
-	public void addMainButton(String text, Color color, Runnable action) {
-		JButton button = new JButton(text);
-		button.setBackground(color);
-		button.setForeground(Color.WHITE);
-		button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		button.addActionListener(e -> {
-			Timer fadeOutTimer = new Timer(10, null);
-			fadeOutTimer.addActionListener(e1 -> {
-				float opacity = ModernDialog.this.getOpacity();
-				if (opacity > 0.05f) {
-					ModernDialog.this.setOpacity(opacity - 0.05f); // Decrease opacity gradually
-				} else {
-					fadeOutTimer.stop(); // Stop timer when fully transparent
-					dispose(); // Dispose the dialog
-					action.run();
-				}
-			});
-			fadeOutTimer.start(); // Start fade-out effect
-		});
-		buttonPanel.add(button);
-		buttonPanel.revalidate(); // Refresh the button panel to show the new button
-		buttonPanel.repaint();
-		adjustDialogSize(); // Adjust size when a new button is added
-	}
-
 	public void setBorderColor(Color newColor) {
 		this.borderColor = newColor;
 	}
@@ -211,12 +187,42 @@ public class ModernDialog extends JDialog {
 		return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
 	}
 
+	// Method to add a main button (e.g., "Yes", "No")
+	public void addMainButton(String text, Color color, Runnable action) {
+		RoundButton button = new RoundButton(text, 10);
+		button.setFillColor(color);
+		button.setForeground(Color.WHITE);
+		button.setBorderColor(borderColor);
+		button.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 2),
+				BorderFactory.createEmptyBorder(10, 20, 10, 20)));
+		button.addActionListener(e -> {
+			Timer fadeOutTimer = new Timer(10, null);
+			fadeOutTimer.addActionListener(e1 -> {
+				float opacity = ModernDialog.this.getOpacity();
+				if (opacity > 0.05f) {
+					ModernDialog.this.setOpacity(opacity - 0.05f); // Decrease opacity gradually
+				} else {
+					fadeOutTimer.stop(); // Stop timer when fully transparent
+					dispose(); // Dispose the dialog
+					action.run();
+				}
+			});
+			fadeOutTimer.start(); // Start fade-out effect
+		});
+		buttonPanel.add(button);
+		buttonPanel.revalidate(); // Refresh the button panel to show the new button
+		buttonPanel.repaint();
+		adjustDialogSize(); // Adjust size when a new button is added
+	}
+
 	// Method to add an extra button (e.g., "Cancel" or other actions)
 	public void addExtraButton(String text, Color color, Runnable action) {
-		JButton extraButton = new JButton(text);
-		extraButton.setBackground(color);
+		RoundButton extraButton = new RoundButton(text, 10);
+		extraButton.setFillColor(color);
 		extraButton.setForeground(Color.WHITE);
-		extraButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+		extraButton.setBorderColor(borderColor);
+		extraButton.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 2),
+				BorderFactory.createEmptyBorder(10, 20, 10, 20)));
 		extraButton.addActionListener(e -> {
 			Timer fadeOutTimer = new Timer(10, null);
 			fadeOutTimer.addActionListener(e1 -> {
