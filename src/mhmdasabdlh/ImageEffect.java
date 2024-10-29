@@ -2,6 +2,8 @@ package mhmdasabdlh;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -60,5 +62,40 @@ public class ImageEffect {
 
 		return invertedIcon;
 
+	}
+
+	public static ImageIcon createImageIconFromText(String text, int width, int height, Color textColor,
+			Color backgroundColor, Font font) {
+		// Create a BufferedImage with given dimensions
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+		// Get the Graphics2D context of the image
+		Graphics2D g2d = image.createGraphics();
+
+		// Set rendering hints for better text quality
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+		// Fill the background
+		g2d.setColor(backgroundColor);
+		g2d.fillRect(0, 0, width, height);
+
+		// Set the text color and font
+		g2d.setColor(textColor);
+		g2d.setFont(font);
+
+		// Center the text in the image
+		FontMetrics fm = g2d.getFontMetrics();
+		int x = (width - fm.stringWidth(text)) / 2;
+		int y = (height - fm.getHeight()) / 2 + fm.getAscent();
+
+		// Draw the text
+		g2d.drawString(text, x, y);
+
+		// Dispose of the graphics context and create an ImageIcon from the
+		// BufferedImage
+		g2d.dispose();
+
+		return new ImageIcon(image);
 	}
 }
