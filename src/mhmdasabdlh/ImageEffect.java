@@ -61,7 +61,6 @@ public class ImageEffect {
 		Icon invertedIcon = new ImageIcon(image);
 
 		return invertedIcon;
-
 	}
 
 	public static ImageIcon createImageIconFromText(String text, int width, int height, Color textColor,
