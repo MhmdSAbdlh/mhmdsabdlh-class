@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -73,6 +75,15 @@ public class CalculatorPanel extends JPanel implements ActionListener {
 		startOfNumber = true;
 		lastEntry = "";
 
+		parentFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// Copy the non-0 to the clipboard
+				if (!display.getText().equalsIgnoreCase("0") && !display.getText().equalsIgnoreCase("0.0"))
+					copyToClipboard(display.getText());
+
+			}
+		});
 		display.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent ke) {
@@ -114,7 +125,8 @@ public class CalculatorPanel extends JPanel implements ActionListener {
 			public void keyPressed(KeyEvent ke) {
 				// Check if 'Esc' key is pressed
 				if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					copyToClipboard(display.getText());
+					if (!display.getText().equalsIgnoreCase("0") && !display.getText().equalsIgnoreCase("0.0"))
+						copyToClipboard(display.getText());
 					parentFrame.dispose(); // Close the frame
 				} else if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (!startOfNumber) {
