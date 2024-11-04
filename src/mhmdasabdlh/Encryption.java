@@ -22,11 +22,37 @@ public class Encryption {
 				}
 		return toString(encryText);
 	}
+	
+	public String encrypt(int finalText) {
+		String textInt = finalText + "";
+		char[] encryText = new char[textInt.length()];
+		encryText = textInt.toCharArray();
+		for (int i = 0; i < textInt.length(); i++)
+			for (int j = 0; j < key.length(); j++)
+				if (encryText[i] == textList.get(j)) {
+					encryText[i] = shuffledList.get(j);
+					break;
+				}
+		return toString(encryText);
+	}
 
 	public String decrypt(String finalText) {
 		char[] decryText = new char[finalText.length()];
 		decryText = finalText.toCharArray();
 		for (int i = 0; i < finalText.length(); i++)
+			for (int j = 0; j < shuffledList.size(); j++)
+				if (decryText[i] == shuffledList.get(j)) {
+					decryText[i] = textList.get(j);
+					break;
+				}
+		return toString(decryText);
+	}
+
+	public String decrypt(int finalText) {
+		String textInt = finalText + "";
+		char[] decryText = new char[textInt.length()];
+		decryText = textInt.toCharArray();
+		for (int i = 0; i < textInt.length(); i++)
 			for (int j = 0; j < shuffledList.size(); j++)
 				if (decryText[i] == shuffledList.get(j)) {
 					decryText[i] = textList.get(j);
