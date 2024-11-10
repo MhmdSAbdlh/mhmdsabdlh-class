@@ -15,6 +15,22 @@ import javax.swing.ImageIcon;
 
 public class ImageEffect {
 
+	public static ImageIcon convertIconToImageIcon(Icon icon) {
+		if (icon instanceof ImageIcon) {
+			return (ImageIcon) icon;
+		}
+
+		int width = icon.getIconWidth();
+		int height = icon.getIconHeight();
+		BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+		Graphics2D g2d = bufferedImage.createGraphics();
+		icon.paintIcon(null, g2d, 0, 0);
+		g2d.dispose();
+
+		return new ImageIcon(bufferedImage);
+	}
+
 	// Method to change the opacity of an image
 	public static ImageIcon changeOpacity(Image srcImage, float opacity) {
 		BufferedImage bufferedImage = new BufferedImage(srcImage.getWidth(null), srcImage.getHeight(null),
@@ -37,7 +53,7 @@ public class ImageEffect {
 		return new ImageIcon(resizedImg);
 	}
 
-	static public Icon invertColor(Icon originalIcon) {
+	static public ImageIcon invertColor(ImageIcon originalIcon) {
 
 		// Convert the icon to BufferedImage
 		BufferedImage image = new BufferedImage(originalIcon.getIconWidth(), originalIcon.getIconHeight(),
@@ -60,7 +76,7 @@ public class ImageEffect {
 		// Create a new icon with the inverted colors
 		Icon invertedIcon = new ImageIcon(image);
 
-		return invertedIcon;
+		return convertIconToImageIcon(invertedIcon);
 	}
 
 	public static ImageIcon createImageIconFromText(String text, int width, int height, Color textColor,
