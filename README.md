@@ -2,14 +2,15 @@
 JAVA CLASSES
 
 AUTOCOMPLETE: 
-  AUTOCOMPLETE A TEXTFIELD USING KEYWORDS
-  CALLED: public AutoComplete(JTextField textField, List<String> keywords)
+  - AUTOCOMPLETE A TEXTFIELD USING KEYWORDS
+  - CALLED: public AutoComplete(JTextField textField, List<String> keywords)
+  - ![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/autocomplete.png)
 
 CALCULATOR:
-  SOME SIMPLE CALCULATION LIKE +,-,*,/ AND A COPY BUTTON
-  AUTOCOPY THE NON-ZERO VALUE WHEN EXIT THE PANEL
-  'ESC' BUTTON TO CLOSE THE PANEL
-  CALLED: public CalculatorPanel(JFrame parentFrame)
+  - SOME SIMPLE CALCULATION LIKE +,-,*,/ AND A COPY BUTTON
+  - AUTOCOPY THE NON-ZERO VALUE WHEN EXIT THE PANEL
+  - 'ESC' BUTTON TO CLOSE THE PANEL
+  - CALLED: public CalculatorPanel(JFrame parentFrame)
 
 DOCK:
   DOCK PANEL OF 4 ELEMENTS
