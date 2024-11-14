@@ -1,32 +1,82 @@
 # Dock
-JAVA DOCK PANEL
+JAVA CLASSES
 
-ADD A DOCK PANEL TO YOU FRAME
+AUTOCOMPLETE: 
+  AUTOCOMPLETE A TEXTFIELD USING KEYWORDS
+  CALLED: public AutoComplete(JTextField textField, List<String> keywords)
 
--DOCK:
-  1. Dock dock= new Dock(RADUIS_SIZE);
-  2. dock.setHyW(30);
-  3. dock.setIcon(icon1, icon2, icon3, icon4);
-  4. dock.setToolText("text1","text2", "text3", "text4");
-     
- * RADUIS SIZE IS AN INT
- * icon1, icon2, icon3, icon4 is the ImageIcon for the 4 buttons
- * THE METHOD setHyW is for set the size of the icon
+CALCULATOR:
+  SOME SIMPLE CALCULATION LIKE +,-,*,/ AND A COPY BUTTON
+  AUTOCOPY THE NON-ZERO VALUE WHEN EXIT THE PANEL
+  'ESC' BUTTON TO CLOSE THE PANEL
+  CALLED: public CalculatorPanel(JFrame parentFrame)
 
--BORDER:
-1. Color borderColor = Color.black; // BORDER COLOR
-2. int borderThickness = 2; //BORDER THICKNESS
-3. dock.setBorder(new RoundedCornerBorder(borderColor, borderThickness));
+DOCK:
+  DOCK PANEL OF 4 ELEMENTS
+  AUTOCHANGE THE OPACITY WHEN THE MOUSE HOUVER IN/OUT EACH BUTTON
+  AUTORESIZE THE ICONS ACCORDING TO THE DOCK HEIGHT
+  CALLED: public Dock(int cornerRadius)
+  USED METHOD: 
+    A- public void setMouseListener() // TO ADD THE OPACITY ANIMATION
+    B- public void setIcon(ImageIcon icon, ImageIcon icon2, ImageIcon icon3, ImageIcon icon4) // TO SET THE ICONS OF THE BUTTONS
+    C- public void setToolText(String text1, String text2, String text3, String text4) // SET TOOLTIP FOR EACH BUTTONS
+    D- public void setHyW(int height) // CHANGE THE HEIGHT TO THE DOCK
+    E- public void addActionLis1(ActionListener al) // ADD ACTIONLOSTENER FOR EVERY BUTTON
+    F- public void setDockColor(Color newColor) // SET DOCK COLOR
 
--EVENT:
-  1. dock.addActionLis1(EVENT1) // ADD ACTION LISTENER TO THE FIRST ITEM
-  2. dock.addActionLis2(EVENT2) // ADD ACTION LISTENER TO THE SECONG ITEM
-  3. dock.addActionLis3(EVENT3) // ADD ACTION LISTENER TO THE THIRD ITEM
-  4. dock.addActionLis4(EVENT4) // ADD ACTION LISTENER TO THE FOURTH ITEM
+ENCRYPTION:
+ ENCRYPT ANY TEXT BY CHANGING THE ORDER OF THE LETTERS
+ CALLED: public String encrypt(String finalText) OR public String encrypt(int number) // FOR ENCRYPTION
+         public String decrypt(String finalText) OR public String decrypt(int number) // FOR DECRYPTION
 
+HALFCIRLE:
+  A LABEL THAT HAS THE STYLE OF HALF CIRCLE WITH ANY WIDTH/HEIGHT YOU WANT
+  CALLED: public HalfCircle(String text)
+          public void setCircleColor(Color newColor) // TO SET THE CIRCLE COLOR
 
--PREVIEW:
+ICONWITHTEXT:
+  A CLASS TO ADD TEXT INSIDE AN IMAGEICON
+  CALLED: public IconWithText(ImageIcon imageIcon, String text, Color textColor, Position position, Font font)
+          public IconWithText(ImageIcon imageIcon, String text, Color textColor, Position position)
+          public IconWithText(ImageIcon imageIcon, String text, Color textColor)
+  POSITION: TOP, BOTTOM, LEFT, RIGHT, CENTER, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
 
-![PHOTO1](https://raw.githubusercontent.com/MhmdSAbdlh/Dock/main/preview/1.png)
+IMAGEBLUR:
+  BLUR ANY IMAGE DIRECTLY
+  CALLED: public BufferedImage blurImageFromResource(String resourcePath) // FROM INSIDE THE APP
+          public BufferedImage blurImageFromFile(String imagePath) // ANY OUTSIDE LOCATION
+          public static BufferedImage blurImage(BufferedImage image) // BUFFEREDIMAGE
 
-![PHOTO2](https://raw.githubusercontent.com/MhmdSAbdlh/Dock/main/preview/2.png)
+IMAGEEFFECT:
+    CLASS TO CHANGE OR ADD EFFECT TO IMAGE
+    public static ImageIcon convertIconToImageIcon(Icon icon) // CONVERT ICON TO IMAGEICON
+    public static ImageIcon changeOpacity(Image srcImage, float opacity) // CHANGE OPCAITY TO A GIVEN IMAGE (0F TO 1.0F)
+    public static ImageIcon getScaledImage(Image srcImg, int w, int h) // RESCALE A GIVEN IMAGE TO ANY WIDTH,HEIGHT YOU WANT
+    static public ImageIcon invertColor(ImageIcon originalIcon) // INVERT THE COLOR OF A GIVEN IMAGE(BLACK -> WHITE)
+    public static ImageIcon createImageIconFromText(String text, int width, int height, Color textColor,
+			Color backgroundColor, Font font) // FOR A GIVEN TEXT CREATE AN IMAGE
+
+MODERNDIALOG:
+  A MODERN DIALOG WITH ROUNDER CORNERS, AND LIGHT DESIGN CONTAIN ICON AT TOP, MESSAGE AT MIDDLE AND BUTTONS AT SOUTH
+  CALLED: public ModernDialog(JFrame parent, String closeMessage, IconType iconType)
+  ICONTYPE: WARNING, ERROR, INFO, QUESTION
+  public void setBorderColor(Color newColor) // TO SET BORDER COLOR
+  public void setColor(Color bgColor) // TO SET BACKGROUND COLOR
+  public void setTextColor(Color textC) // TO SET FOREGROUND COLOR
+  public void addMainButton(String text, Color color, Runnable action) // ADD MAIN BUTTON LIKE YES, NO
+  public void addExtraButton(String text, Color color, Runnable action) // ADD EXTRA BUTTON LIKE CANCEL, LATER, ....
+
+ROUNDBUTTON:
+  BUTTON WITH ROUND CORNERS
+  CALLED: public RoundButton(String text, int radius)
+  public void setFillColor(Color fillColor) // BACKGROUND COLOR
+  public void setBorderColor(Color borderC) // BORDER COLOR
+
+ROUNDLABEL:
+  LABEL WITH ROUND CORNERS
+  CALLED: public RoundLabel(String text, int borderRadius)
+  public void setFillColor(Color fillColor) // SET THE BACKGROUND COLOR
+
+TEXTEFFECT:
+  SCRAMBELTEXT: TO SCRAMBLE CERTAIN WORD, CALLED:public static String scrambleText(String text)
+  GETFIRSTTHREELETTERS: TO GET THE FIRST 3 LETTERS FOR A GIVEN WORD, CALLED: public static String getFirstThreeLetters(String str)
