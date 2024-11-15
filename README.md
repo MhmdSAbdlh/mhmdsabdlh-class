@@ -2,13 +2,11 @@
 JAVA CLASSES
 
 
-
 **AUTOCOMPLETE:** 
   - AUTOCOMPLETE A TEXTFIELD USING KEYWORDS
   - CALLED: public AutoComplete(JTextField textField, List<String> keywords)
     
 ![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/autocomplete.png)
-
 
 
 **CALCULATOR:**
@@ -18,7 +16,6 @@ JAVA CLASSES
   - CALLED: public CalculatorPanel(JFrame parentFrame)
 
 ![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/calculator.png)
-
 
 
 **DOCK:**
@@ -37,13 +34,11 @@ JAVA CLASSES
 ![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/dock.png)
 
 
-
 **ENCRYPTION:**
  - ENCRYPT ANY TEXT BY CHANGING THE ORDER OF THE LETTERS
  - CALLED:
    * public String encrypt(String finalText) OR public String encrypt(int number) // FOR ENCRYPTION
    * public String decrypt(String finalText) OR public String decrypt(int number) // FOR DECRYPTION
-
 
 
 **HALFCIRLE:**
@@ -53,7 +48,6 @@ JAVA CLASSES
     * public void setCircleColor(Color newColor) // TO SET THE CIRCLE COLOR
 	  
 ![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/halfcirle.png)
-
 
 
 **ICONWITHTEXT:**
@@ -67,7 +61,6 @@ JAVA CLASSES
 ![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/iconwithtext.png)
 
 
-
 **IMAGEBLUR:**
   - BLUR ANY IMAGE DIRECTLY
   - CALLED:
@@ -76,7 +69,6 @@ JAVA CLASSES
     * public static BufferedImage blurImage(BufferedImage image) // BUFFEREDIMAGE
 
 ![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/imageblur.png)
-
 
 
 **IMAGEEFFECT:**
@@ -92,7 +84,6 @@ JAVA CLASSES
 ![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/texttoimage.png)
 
 
-
 **MODERNDIALOG:**
   - A MODERN DIALOG WITH ROUNDER CORNERS, AND LIGHT DESIGN CONTAIN ICON AT TOP, MESSAGE AT MIDDLE AND BUTTONS AT SOUTH
   - CALLED: public ModernDialog(JFrame parent, String closeMessage, IconType iconType)
@@ -106,6 +97,28 @@ JAVA CLASSES
 ![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/moderndialog1.png)
 ![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/moderndialog2.png)
 
+**PasswordDialog:**
+ - Dialog contain lock icon, and message, password with hide/show icon and tryleft or subtitle and ok cancel button
+ - public PasswordDialog(JFrame parent) //initialiize
+ - public void showMessage(String closeMessage, String tLeft) // show the dialog with the message and the subtitle
+ - public void setBorderColor(Color newColor) // set dialog border color
+ - public void setColor(Color bgColor) // set dialog panel color
+ - public void setTextColor(Color textC) // set message and submessage color
+ - public void setPassword(String password) // set the choosen password
+ - public String getPassword() // get the user input password
+ - public MessageType getMessageType() // get the button pressed: ok or cancel
+ - public void autoUnlock() // auto unlock the dialog without hitting a password(I used it in some cases)
+
+![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/passworddialog.png)
+
+
+**PasswordField:**
+ - Modern password field with round border
+ - It has by default a hide/show icon to the password
+ - public PasswordField() // to call the password
+ - public void setRound(int round) // to set the round
+
+![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/passwordfield.png)
 
 
 **ROUNDBUTTON:**
@@ -117,12 +130,10 @@ JAVA CLASSES
 ![alt text](https://github.com/MhmdSAbdlh/mhmdsabdlh-class/blob/main/preview/roundbutton.png)
 
 
-
 **ROUNDLABEL:**
   - LABEL WITH ROUND CORNERS
   - CALLED: public RoundLabel(String text, int borderRadius)
   - public void setFillColor(Color fillColor) // SET THE BACKGROUND COLOR
-
 
 
 **TEXTEFFECT:**
