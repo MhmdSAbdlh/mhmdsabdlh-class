@@ -53,7 +53,7 @@ public class ImageEffect {
 		return new ImageIcon(resizedImg);
 	}
 
-	static public ImageIcon invertColor(ImageIcon originalIcon) {
+	public static ImageIcon invertColor(ImageIcon originalIcon) {
 
 		// Convert the icon to BufferedImage
 		BufferedImage image = new BufferedImage(originalIcon.getIconWidth(), originalIcon.getIconHeight(),

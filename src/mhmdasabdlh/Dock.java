@@ -50,11 +50,10 @@ public class Dock extends JPanel {
 	}
 
 	public void setMouseListener() {
-
-		opacityEffect(item1, ImageEffect.getScaledImage(img1.getImage(), h, h));
-		opacityEffect(item2, ImageEffect.getScaledImage(img2.getImage(), h, h));
-		opacityEffect(item3, ImageEffect.getScaledImage(img3.getImage(), h, h));
-		opacityEffect(item4, ImageEffect.getScaledImage(img4.getImage(), h, h));
+		addHoverEffect(item1, ImageEffect.getScaledImage(img1.getImage(), h, h));
+		addHoverEffect(item2, ImageEffect.getScaledImage(img2.getImage(), h, h));
+		addHoverEffect(item3, ImageEffect.getScaledImage(img3.getImage(), h, h));
+		addHoverEffect(item4, ImageEffect.getScaledImage(img4.getImage(), h, h));
 	}
 
 	/* Fade opacity */
@@ -78,7 +77,7 @@ public class Dock extends JPanel {
 		timer.start();
 	}
 
-	public void opacityEffect(JButton button, ImageIcon notIcon) {
+	private void addHoverEffect(JButton button, ImageIcon notIcon) {
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
 		button.setContentAreaFilled(false);
@@ -117,26 +116,25 @@ public class Dock extends JPanel {
 		item2.setSize(h, h);
 		item3.setSize(h, h);
 		item4.setSize(h, h);
-		item1.setIcon(ImageEffect.changeOpacity(ImageEffect.getScaledImage(img1.getImage(), h, h).getImage(),0.7f));
-		item2.setIcon(ImageEffect.changeOpacity(ImageEffect.getScaledImage(img2.getImage(), h, h).getImage(),0.7f));
-		item3.setIcon(ImageEffect.changeOpacity(ImageEffect.getScaledImage(img3.getImage(), h, h).getImage(),0.7f));
-		item4.setIcon(ImageEffect.changeOpacity(ImageEffect.getScaledImage(img4.getImage(), h, h).getImage(),0.7f));
+		img1 = ImageEffect.getScaledImage(img1.getImage(), h, h);
+		img2 = ImageEffect.getScaledImage(img2.getImage(), h, h);
+		img3 = ImageEffect.getScaledImage(img3.getImage(), h, h);
+		img4 = ImageEffect.getScaledImage(img4.getImage(), h, h);
+
+		item1.setIcon(ImageEffect.changeOpacity(img1.getImage(), 0.7f));
+		item2.setIcon(ImageEffect.changeOpacity(img2.getImage(), 0.7f));
+		item3.setIcon(ImageEffect.changeOpacity(img3.getImage(), 0.7f));
+		item4.setIcon(ImageEffect.changeOpacity(img4.getImage(), 0.7f));
+
 	}
 
-	public void addActionLis1(ActionListener al) {
-		item1.addActionListener(al);
-	}
-
-	public void addActionLis2(ActionListener al) {
-		item2.addActionListener(al);
-	}
-
-	public void addActionLis3(ActionListener al) {
-		item3.addActionListener(al);
-	}
-
-	public void addActionLis4(ActionListener al) {
-		item4.addActionListener(al);
+	public void addActionListener(int buttonIndex, ActionListener al) {
+		JButton[] buttons = { item1, item2, item3, item4 };
+		if (buttonIndex >= 0 && buttonIndex < buttons.length) {
+			buttons[buttonIndex].addActionListener(al);
+		} else {
+			throw new IllegalArgumentException("Invalid button index: " + buttonIndex);
+		}
 	}
 
 	@Override

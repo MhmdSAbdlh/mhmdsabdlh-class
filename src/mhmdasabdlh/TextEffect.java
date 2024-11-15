@@ -5,7 +5,7 @@ import java.util.Random;
 public class TextEffect {
 	private static final Random random = new Random();
 
-	static public String scrambleText(String text) {
+	public static String scrambleText(String text) {
 		char[] chars = text.toCharArray();
 		for (int i = 0; i < chars.length; i++) {
 			int j = random.nextInt(chars.length);

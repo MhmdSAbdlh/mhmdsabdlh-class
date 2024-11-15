@@ -101,7 +101,7 @@ public class IconWithText implements Icon {
 			break;
 		case BOTTOM_LEFT:
 			textX = x; // Left of the image
-			textY = y + imageHeight; // Below the image
+			textY = y + imageHeight - 5; // Below the image
 			break;
 		case BOTTOM_RIGHT:
 			textX = x + imageWidth - textWidth - 5; // Right of the image

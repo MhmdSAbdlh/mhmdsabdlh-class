@@ -86,11 +86,11 @@ public class ModernDialog extends JDialog {
 		this.setOpacity(0f); // Set initial opacity to 0 (fully transparent)
 		Timer fadeInTimer = new Timer(10, null);
 		fadeInTimer.addActionListener(e -> {
-			float opacity = ModernDialog.this.getOpacity();
+			float opacity = getOpacity();
 			if (opacity < 0.95f) {
-				ModernDialog.this.setOpacity(opacity + 0.05f); // Increase opacity gradually
+				setOpacity(opacity + 0.05f); // Increase opacity gradually
 			} else {
-				ModernDialog.this.setOpacity(1f); // Increase opacity gradually
+				setOpacity(1f); // Increase opacity gradually
 				fadeInTimer.stop(); // Stop timer when fully visible
 			}
 		});
@@ -100,9 +100,9 @@ public class ModernDialog extends JDialog {
 		this.getRootPane().registerKeyboardAction(e -> {
 			Timer fadeOutTimer = new Timer(10, null);
 			fadeOutTimer.addActionListener(e1 -> {
-				float opacity = ModernDialog.this.getOpacity();
+				float opacity = getOpacity();
 				if (opacity > 0.05f) {
-					ModernDialog.this.setOpacity(opacity - 0.05f); // Decrease opacity gradually
+					setOpacity(opacity - 0.05f); // Decrease opacity gradually
 				} else {
 					fadeOutTimer.stop(); // Stop timer when fully transparent
 					dispose(); // Dispose the dialog
@@ -193,14 +193,14 @@ public class ModernDialog extends JDialog {
 		button.setFillColor(color);
 		button.setForeground(Color.WHITE);
 		button.setBorderColor(borderColor);
-		button.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 2),
+		button.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1),
 				BorderFactory.createEmptyBorder(10, 20, 10, 20)));
 		button.addActionListener(e -> {
 			Timer fadeOutTimer = new Timer(10, null);
 			fadeOutTimer.addActionListener(e1 -> {
-				float opacity = ModernDialog.this.getOpacity();
+				float opacity = getOpacity();
 				if (opacity > 0.05f) {
-					ModernDialog.this.setOpacity(opacity - 0.05f); // Decrease opacity gradually
+					setOpacity(opacity - 0.05f); // Decrease opacity gradually
 				} else {
 					fadeOutTimer.stop(); // Stop timer when fully transparent
 					dispose(); // Dispose the dialog
@@ -226,9 +226,9 @@ public class ModernDialog extends JDialog {
 		extraButton.addActionListener(e -> {
 			Timer fadeOutTimer = new Timer(10, null);
 			fadeOutTimer.addActionListener(e1 -> {
-				float opacity = ModernDialog.this.getOpacity();
+				float opacity = getOpacity();
 				if (opacity > 0.05f) {
-					ModernDialog.this.setOpacity(opacity - 0.05f); // Decrease opacity gradually
+					setOpacity(opacity - 0.05f); // Decrease opacity gradually
 				} else {
 					fadeOutTimer.stop(); // Stop timer when fully transparent
 					dispose(); // Dispose the dialog

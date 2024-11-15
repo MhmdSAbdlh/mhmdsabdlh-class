@@ -1,4 +1,5 @@
 package mhmdasabdlh;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,10 +15,10 @@ public class RoundLabel extends JLabel {
 	private int borderRadius;
 	private Color fillColor;
 
-	public RoundLabel(String text, int borderRadius, Color fillColor) {
+	public RoundLabel(String text, int borderRadius) {
 		super(text);
 		this.borderRadius = borderRadius;
-		this.fillColor = fillColor;
+		this.fillColor = Color.LIGHT_GRAY; // Default color
 		setOpaque(false);
 		setPreferredSize(new Dimension(100, 50)); // Set the preferred size of the label
 		setHorizontalAlignment(CENTER); // Center the text horizontally
