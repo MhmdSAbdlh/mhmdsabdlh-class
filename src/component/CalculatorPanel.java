@@ -1,4 +1,4 @@
-package mhmdasabdlh;
+package mhmdsabdlh.component;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

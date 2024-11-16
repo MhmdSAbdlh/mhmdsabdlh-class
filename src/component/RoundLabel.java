@@ -1,4 +1,4 @@
-package mhmdasabdlh;
+package mhmdsabdlh.component;
 
 import java.awt.Color;
 import java.awt.Dimension;

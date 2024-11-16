@@ -1,4 +1,4 @@
-package mhmdasabdlh;
+package mhmdsabdlh.images;
 
 import javax.swing.*;
 import java.awt.*;

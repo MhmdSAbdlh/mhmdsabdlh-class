@@ -1,9 +1,12 @@
-package mhmdasabdlh;
+package mhmdsabdlh.dialog;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import mhmdsabdlh.component.PasswordField;
+import mhmdsabdlh.component.RoundButton;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -34,7 +37,7 @@ public class PasswordDialog extends JDialog {
 
 		// Create icon label
 		iconLabel = new JLabel();
-		iconLabel.setIcon(new ImageIcon(getClass().getResource("/mhmdasabdlh/lock.png")));
+		iconLabel.setIcon(new ImageIcon(getClass().getResource("/mhmdsabdlh/dialog/lock.png")));
 		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		// Apply rounded shape to the dialog

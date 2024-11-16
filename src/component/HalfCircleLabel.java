@@ -1,12 +1,12 @@
-package mhmdasabdlh;
+package mhmdsabdlh.component;
 import javax.swing.*;
 import java.awt.*;
 
-public class HalfCircle extends JLabel {
+public class HalfCircleLabel extends JLabel {
 
 	private Color circleColor;
 
-	public HalfCircle(String text) {
+	public HalfCircleLabel(String text) {
 		super(text); // Set the text of the JLabel
 		setHorizontalAlignment(CENTER); // Center the text in the JLabel
 		setVerticalAlignment(CENTER);

@@ -1,4 +1,4 @@
-package mhmdasabdlh;
+package mhmdsabdlh.images;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
@@ -62,18 +62,14 @@ public class ImageBlur {
 	}
 
 	public static BufferedImage blurImage(BufferedImage image) {
-		// Define a 7x7 Gaussian blur kernel
-		float[] blurKernel = { 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f,
-				1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f,
-				1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f,
-				1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f,
-				1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f,
-				1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f,
-				1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f,
-				1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f, 1f / 81f,
-				1f / 81f, 1f / 81f };
+		float[] blurKernel = new float[100]; // 7x7 kernel
 
-		Kernel kernel = new Kernel(9, 9, blurKernel);
+		// Initialize the kernel with equal values for a simple blur
+		for (int i = 0; i < blurKernel.length; i++) {
+			blurKernel[i] = 1f / 100f;
+		}
+
+		Kernel kernel = new Kernel(10, 10, blurKernel);
 		ConvolveOp convolveOp = new ConvolveOp(kernel, ConvolveOp.EDGE_NO_OP, null);
 
 		return convolveOp.filter(image, null);

@@ -1,4 +1,4 @@
-package mhmdasabdlh;
+package mhmdsabdlh.text;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package mhmdasabdlh;
+package mhmdsabdlh.component;
 
 import javax.swing.*;
 import java.awt.*;

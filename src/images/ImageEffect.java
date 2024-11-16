@@ -1,6 +1,7 @@
-package mhmdasabdlh;
+package mhmdsabdlh.images;
 
 import java.awt.AlphaComposite;
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -113,4 +114,37 @@ public class ImageEffect {
 
 		return new ImageIcon(image);
 	}
+
+	public static ImageIcon createIconWithText(ImageIcon icon, String text, Font font, Color textColor) {
+		// Create a buffered image with enough space for the icon and text
+		int width = icon.getIconWidth() + getTextWidth(text, font) + 10; // 10 pixels padding
+		int height = Math.max(icon.getIconHeight(), getTextHeight(font)) + 10; // 10 pixels padding
+
+		BufferedImage combined = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = combined.createGraphics();
+
+		// Draw the icon
+		g.drawImage(icon.getImage(), 0, (height - icon.getIconHeight()) / 2, null);
+
+		// Set the font and color for the text
+		g.setFont(font);
+		g.setColor(textColor);
+
+		// Draw the text to the right of the icon
+		g.drawString(text, icon.getIconWidth() + 5, (height + getTextHeight(font)) / 2 - 5); // 5 pixels padding
+
+		g.dispose();
+		return new ImageIcon(combined);
+	}
+
+	private static int getTextWidth(String text, Font font) {
+		FontMetrics metrics = new Canvas().getFontMetrics(font);
+		return metrics.stringWidth(text);
+	}
+
+	private static int getTextHeight(Font font) {
+		FontMetrics metrics = new Canvas().getFontMetrics(font);
+		return metrics.getHeight();
+	}
+
 }
