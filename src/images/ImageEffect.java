@@ -16,6 +16,11 @@ import javax.swing.ImageIcon;
 
 public class ImageEffect {
 
+	// Define additional positions for the text
+	public enum Position {
+		TOP, BOTTOM, LEFT, RIGHT
+	}
+
 	public static ImageIcon convertIconToImageIcon(Icon icon) {
 		if (icon instanceof ImageIcon) {
 			return (ImageIcon) icon;
@@ -115,23 +120,54 @@ public class ImageEffect {
 		return new ImageIcon(image);
 	}
 
-	public static ImageIcon createIconWithText(ImageIcon icon, String text, Font font, Color textColor) {
-		// Create a buffered image with enough space for the icon and text
-		int width = icon.getIconWidth() + getTextWidth(text, font) + 10; // 10 pixels padding
-		int height = Math.max(icon.getIconHeight(), getTextHeight(font)) + 10; // 10 pixels padding
+	public static ImageIcon createIconWithText(ImageIcon icon, String text, Font font, Color textColor, Position pos) {
+		// Get text dimensions
+		int textWidth = getTextWidth(text, font);
+		int textHeight = getTextHeight(font);
+
+		// Calculate dimensions for the new image
+		int width = icon.getIconWidth();
+		int height = icon.getIconHeight();
+
+		if (pos == Position.LEFT || pos == Position.RIGHT) {
+			width += textWidth + 10; // Add padding for horizontal layout
+			height = Math.max(height, textHeight + 10); // Ensure enough space for text
+		} else if (pos == Position.TOP || pos == Position.BOTTOM) {
+			width = Math.max(width, textWidth + 10); // Ensure enough space for text
+			height += textHeight + 10; // Add padding for vertical layout
+		}
 
 		BufferedImage combined = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = combined.createGraphics();
 
-		// Draw the icon
-		g.drawImage(icon.getImage(), 0, (height - icon.getIconHeight()) / 2, null);
+		// Enable anti-aliasing for smooth text
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		// Set the font and color for the text
 		g.setFont(font);
 		g.setColor(textColor);
 
-		// Draw the text to the right of the icon
-		g.drawString(text, icon.getIconWidth() + 5, (height + getTextHeight(font)) / 2 - 5); // 5 pixels padding
+		switch (pos) {
+		case RIGHT:
+			g.drawImage(icon.getImage(), 0, (height - icon.getIconHeight()) / 2, null);
+			g.drawString(text, icon.getIconWidth() + 5, (height + textHeight) / 2 - 5); // Text to the right
+			break;
+
+		case LEFT:
+			g.drawString(text, 5, (height + textHeight) / 2 - 5); // Text to the left
+			g.drawImage(icon.getImage(), textWidth + 10, (height - icon.getIconHeight()) / 2, null);
+			break;
+
+		case TOP:
+			g.drawString(text, (width - textWidth) / 2, textHeight);
+			g.drawImage(icon.getImage(), (width - icon.getIconWidth()) / 2, textHeight + 5, null);
+			break;
+
+		case BOTTOM:
+			g.drawImage(icon.getImage(), (width - icon.getIconWidth()) / 2, 5, null);
+			g.drawString(text, (width - textWidth) / 2, height - 5);
+			break;
+		}
 
 		g.dispose();
 		return new ImageIcon(combined);

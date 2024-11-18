@@ -61,7 +61,7 @@ public class ImageBlur {
 		return null;
 	}
 
-	public static BufferedImage blurImage(BufferedImage image) {
+	public BufferedImage blurImage(BufferedImage image) {
 		float[] blurKernel = new float[100]; // 7x7 kernel
 
 		// Initialize the kernel with equal values for a simple blur

@@ -24,11 +24,11 @@ public class Dock extends JPanel {
 	private Color dockColor;
 
 	public Dock(int cornerRadius) {
-		this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+		setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 		this.cornerRadius = cornerRadius;
 		setOpaque(false); // Make the panel transparent
 		// Set a default color
-		this.dockColor = Color.white;
+		dockColor = Color.white;
 
 		img1 = new ImageIcon();
 		img2 = new ImageIcon();
@@ -45,10 +45,10 @@ public class Dock extends JPanel {
 		item3.setSize(h, h);
 		item4.setSize(h, h);
 
-		this.add(item1);
-		this.add(item2);
-		this.add(item3);
-		this.add(item4);
+		add(item1);
+		add(item2);
+		add(item3);
+		add(item4);
 	}
 
 	public void setMouseListener() {
@@ -87,12 +87,12 @@ public class Dock extends JPanel {
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				applyFadeEffect(button, notIcon, 0.7f, 1.0f, 5);
+				applyFadeEffect(button, ImageEffect.getScaledImage(notIcon.getImage(), h, h), 0.7f, 1.0f, 5);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				applyFadeEffect(button, notIcon, 1.0f, 0.7f, 5);
+				applyFadeEffect(button, ImageEffect.getScaledImage(notIcon.getImage(), h, h), 1.0f, 0.7f, 5);
 			}
 		});
 	}
@@ -114,20 +114,19 @@ public class Dock extends JPanel {
 	public void setHyW(int height) {
 		this.h = height;
 
-		item1.setSize(h, h);
-		item2.setSize(h, h);
-		item3.setSize(h, h);
-		item4.setSize(h, h);
-		img1 = ImageEffect.getScaledImage(img1.getImage(), h, h);
-		img2 = ImageEffect.getScaledImage(img2.getImage(), h, h);
-		img3 = ImageEffect.getScaledImage(img3.getImage(), h, h);
-		img4 = ImageEffect.getScaledImage(img4.getImage(), h, h);
+		item1.setSize(height, height);
+		item2.setSize(height, height);
+		item3.setSize(height, height);
+		item4.setSize(height, height);
+		img1 = ImageEffect.getScaledImage(img1.getImage(), height, height);
+		img2 = ImageEffect.getScaledImage(img2.getImage(), height, height);
+		img3 = ImageEffect.getScaledImage(img3.getImage(), height, height);
+		img4 = ImageEffect.getScaledImage(img4.getImage(), height, height);
 
 		item1.setIcon(ImageEffect.changeOpacity(img1.getImage(), 0.7f));
 		item2.setIcon(ImageEffect.changeOpacity(img2.getImage(), 0.7f));
 		item3.setIcon(ImageEffect.changeOpacity(img3.getImage(), 0.7f));
 		item4.setIcon(ImageEffect.changeOpacity(img4.getImage(), 0.7f));
-
 	}
 
 	public void addActionListener(int buttonIndex, ActionListener al) {
