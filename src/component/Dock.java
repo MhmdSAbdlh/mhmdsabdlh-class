@@ -114,14 +114,14 @@ public class Dock extends JPanel {
 	public void setHyW(int height) {
 		this.h = height;
 
-		item1.setSize(height, height);
-		item2.setSize(height, height);
-		item3.setSize(height, height);
-		item4.setSize(height, height);
-		img1 = ImageEffect.getScaledImage(img1.getImage(), height, height);
-		img2 = ImageEffect.getScaledImage(img2.getImage(), height, height);
-		img3 = ImageEffect.getScaledImage(img3.getImage(), height, height);
-		img4 = ImageEffect.getScaledImage(img4.getImage(), height, height);
+		item1.setSize(h, h);
+		item2.setSize(h, h);
+		item3.setSize(h, h);
+		item4.setSize(h, h);
+		img1 = ImageEffect.getScaledImage(img1.getImage(), h, h);
+		img2 = ImageEffect.getScaledImage(img2.getImage(), h, h);
+		img3 = ImageEffect.getScaledImage(img3.getImage(), h, h);
+		img4 = ImageEffect.getScaledImage(img4.getImage(), h, h);
 
 		item1.setIcon(ImageEffect.changeOpacity(img1.getImage(), 0.7f));
 		item2.setIcon(ImageEffect.changeOpacity(img2.getImage(), 0.7f));
