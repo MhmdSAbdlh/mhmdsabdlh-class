@@ -7,6 +7,8 @@ import mhmdsabdlh.component.RoundButton;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 public class ModernDialog extends JDialog {
@@ -16,6 +18,8 @@ public class ModernDialog extends JDialog {
 	private JLabel iconLabel;
 	private String closeMessage;
 	private Color borderColor, panelColor, txtColor;
+	private OverlayPanel overlay;
+	private JFrame superF;
 
 	// Enum to define icon types
 	public enum IconType {
@@ -23,7 +27,12 @@ public class ModernDialog extends JDialog {
 	}
 
 	public ModernDialog(JFrame parent, String closeMessage, IconType iconType) {
-		super(parent, "Exit Application", true);
+		super(parent, "Exit Application", false);
+		this.superF = parent;
+		overlay = new OverlayPanel();
+		overlay.setBounds(0, 0, parent.getWidth(), parent.getHeight());
+		overlay.setOpaque(false);
+		parent.getLayeredPane().add(overlay, JLayeredPane.PALETTE_LAYER);
 		this.closeMessage = closeMessage; // Store the message
 		this.txtColor = Color.BLACK;
 
@@ -84,16 +93,52 @@ public class ModernDialog extends JDialog {
 		// Set position
 		this.setLocationRelativeTo(parent);
 
+		// Add a MouseAdapter to detect clicks outside the dialog
+		overlay.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Point mousePoint = e.getPoint();
+				SwingUtilities.convertPointToScreen(mousePoint, overlay); // Convert to screen coordinates
+
+				Rectangle dialogBounds = getBounds();
+				if (!dialogBounds.contains(mousePoint)) {
+					Timer fadeOutTimer = new Timer(10, null);
+					fadeOutTimer.addActionListener(e1 -> {
+						float opacity = getOpacity();
+						float currentAlpha = overlay.getAlpha();
+						if (opacity > 0.05f) {
+							setOpacity(opacity - 0.05f); // Decrease opacity gradually
+						} else {
+							fadeOutTimer.stop(); // Stop timer when fully transparent
+							dispose(); // Dispose the dialog
+						}
+						if (currentAlpha > 0.05f) {
+							overlay.setAlpha(currentAlpha - 0.05f); // Increase opacity gradually
+						} else {
+							overlay.setAlpha(currentAlpha);
+						}
+					});
+					fadeOutTimer.start();
+				}
+			}
+		});
+
 		// Inside the constructor, after the dialog size and location configuration
 		this.setOpacity(0f); // Set initial opacity to 0 (fully transparent)
 		Timer fadeInTimer = new Timer(10, null);
 		fadeInTimer.addActionListener(e -> {
 			float opacity = getOpacity();
+			float currentAlpha = overlay.getAlpha();
 			if (opacity < 0.95f) {
 				setOpacity(opacity + 0.05f); // Increase opacity gradually
 			} else {
 				setOpacity(1f); // Increase opacity gradually
 				fadeInTimer.stop(); // Stop timer when fully visible
+			}
+			if (currentAlpha < 0.5f) {
+				overlay.setAlpha(currentAlpha + 0.05f); // Increase opacity gradually
+			} else {
+				overlay.setAlpha(currentAlpha);
 			}
 		});
 		fadeInTimer.start(); // Start fade-in effect
@@ -103,11 +148,17 @@ public class ModernDialog extends JDialog {
 			Timer fadeOutTimer = new Timer(10, null);
 			fadeOutTimer.addActionListener(e1 -> {
 				float opacity = getOpacity();
+				float currentAlpha = overlay.getAlpha();
 				if (opacity > 0.05f) {
 					setOpacity(opacity - 0.05f); // Decrease opacity gradually
 				} else {
 					fadeOutTimer.stop(); // Stop timer when fully transparent
 					dispose(); // Dispose the dialog
+				}
+				if (currentAlpha > 0.05f) {
+					overlay.setAlpha(currentAlpha - 0.05f); // Increase opacity gradually
+				} else {
+					overlay.setAlpha(currentAlpha);
 				}
 			});
 			fadeOutTimer.start(); // Start fade-out effect
@@ -116,6 +167,7 @@ public class ModernDialog extends JDialog {
 		// Request focus for the dialog
 		this.setFocusableWindowState(true);
 		this.requestFocusInWindow();
+		setModalityType(Dialog.ModalityType.MODELESS);
 	}
 
 	// Method to set the appropriate icon
@@ -201,12 +253,18 @@ public class ModernDialog extends JDialog {
 			Timer fadeOutTimer = new Timer(10, null);
 			fadeOutTimer.addActionListener(e1 -> {
 				float opacity = getOpacity();
+				float currentAlpha = overlay.getAlpha();
 				if (opacity > 0.05f) {
 					setOpacity(opacity - 0.05f); // Decrease opacity gradually
 				} else {
 					fadeOutTimer.stop(); // Stop timer when fully transparent
 					dispose(); // Dispose the dialog
 					action.run();
+				}
+				if (currentAlpha > 0.05f) {
+					overlay.setAlpha(currentAlpha - 0.05f); // Increase opacity gradually
+				} else {
+					overlay.setAlpha(currentAlpha);
 				}
 			});
 			fadeOutTimer.start(); // Start fade-out effect
@@ -229,12 +287,18 @@ public class ModernDialog extends JDialog {
 			Timer fadeOutTimer = new Timer(10, null);
 			fadeOutTimer.addActionListener(e1 -> {
 				float opacity = getOpacity();
+				float currentAlpha = overlay.getAlpha();
 				if (opacity > 0.05f) {
 					setOpacity(opacity - 0.05f); // Decrease opacity gradually
 				} else {
 					fadeOutTimer.stop(); // Stop timer when fully transparent
 					dispose(); // Dispose the dialog
 					action.run();
+				}
+				if (currentAlpha > 0.05f) {
+					overlay.setAlpha(currentAlpha - 0.05f); // Increase opacity gradually
+				} else {
+					overlay.setAlpha(currentAlpha);
 				}
 			});
 			fadeOutTimer.start(); // Start fade-out effect
@@ -243,5 +307,58 @@ public class ModernDialog extends JDialog {
 		buttonPanel.revalidate();
 		buttonPanel.repaint();
 		adjustDialogSize(); // Adjust size when a new button is added
+	}
+
+	public void setOverlayColor(Color color) {
+		if (overlay != null) {
+			overlay.setOverlayColor(color);
+		}
+	}
+
+	// Don't forget to clean up overlay when disposing
+	@Override
+	public void dispose() {
+		removeOverlay();
+		super.dispose();
+	}
+
+	public void removeOverlay() {
+		if (overlay != null) {
+			superF.getLayeredPane().remove(overlay);
+			superF.getLayeredPane().repaint();
+		}
+	}
+
+	// Create a custom overlay panel
+	class OverlayPanel extends JPanel {
+		private float alpha = 0f; // Starting alpha (0% transparency)
+		private Color overlayColor = new Color(255, 255, 255); // Default color: white
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.setColor(new Color(overlayColor.getRed(), overlayColor.getGreen(), overlayColor.getBlue(),
+					(int) (alpha * 255))); // Alpha transparency
+			g2d.fillRect(0, 0, getWidth(), getHeight());
+		}
+
+		public void setAlpha(float alpha) {
+			this.alpha = alpha;
+			repaint(); // Repaint the panel with updated alpha
+		}
+
+		public float getAlpha() {
+			return this.alpha;
+		}
+
+		public void setOverlayColor(Color color) {
+			this.overlayColor = color; // Update the overlay color
+			repaint(); // Repaint the panel with the new color
+		}
+
+		public Color getOverlayColor() {
+			return this.overlayColor;
+		}
 	}
 }
