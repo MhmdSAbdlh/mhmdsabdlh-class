@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import mhmdsabdlh.component.RoundButton;
+import mhmdsabdlh.images.ImageEffect;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -12,8 +13,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
-public class ModernDialog extends JDialog {
+public class UpdateDialog extends JDialog {
 
 	private JPanel buttonPanel, messagePanel;
 	private JLabel messageLabel, iconLabel, subtitleText;
@@ -22,13 +24,15 @@ public class ModernDialog extends JDialog {
 	private OverlayPanel overlay;
 	private final JFrame superF;
 	private Runnable onDisposeCallback;
+	public JComboBox<String> versionList;
+	private IconType iconT;
 
 	// Enum to define icon types
 	public enum IconType {
-		WARNING, ERROR, INFO, QUESTION
+		UPDATE, DOWNGRADE
 	}
 
-	public ModernDialog(JFrame parent, String closeMessage, IconType iconType) {
+	public UpdateDialog(JFrame parent, String closeMessage, IconType iconType) {
 		super(parent, "Exit Application", false);
 		this.superF = parent;
 		overlay = new OverlayPanel();
@@ -37,6 +41,7 @@ public class ModernDialog extends JDialog {
 		superF.getLayeredPane().add(overlay, JLayeredPane.PALETTE_LAYER);
 		this.closeMessage = closeMessage; // Store the message
 		this.txtColor = Color.BLACK;
+		this.iconT = iconType;
 
 		// Customize dialog's look
 		setUndecorated(true); // Removes the default window frame
@@ -45,6 +50,7 @@ public class ModernDialog extends JDialog {
 		// Create icon label
 		iconLabel = new JLabel();
 		setIcon(iconType); // Set the icon based on the type
+		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		// Apply rounded shape to the dialog
 		setShape(new RoundRectangle2D.Double(0, 0, 300, 150, 20, 20)); // Rounded corners
@@ -67,11 +73,11 @@ public class ModernDialog extends JDialog {
 				g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 20, 20); // Draw border with small padding
 			}
 		};
-		panel.setLayout(new BorderLayout());
+		panel.setLayout(new BorderLayout(0, 10));
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
 		// Add multiline support using HTML in JLabel
-		messagePanel = new JPanel(new BorderLayout(0, 10));
+		messagePanel = new JPanel(new BorderLayout(0, 0));
 		messagePanel.setOpaque(false);
 		messageLabel = new JLabel("<html><font color='" + getHexColor(txtColor) + "'>"
 				+ closeMessage.replace("\n", "<br>") + "</font></html>", JLabel.CENTER);
@@ -82,20 +88,38 @@ public class ModernDialog extends JDialog {
 				JLabel.CENTER);
 		subtitleText.setFont(new Font("Arial", Font.ITALIC, 14));
 
-		messagePanel.add(messageLabel, BorderLayout.CENTER);
-		messagePanel.add(subtitleText, BorderLayout.AFTER_LAST_LINE);
-
 		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
 		buttonPanel.setOpaque(false); // Transparent background for buttons
 
-		// Spacing
-		iconLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0)); // Adds space below the icon
-		messagePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 8, 0)); // Adds space above and below the message
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0)); // Adds space above the button panel
+		versionList = new JComboBox<String>();
+		if (iconType == IconType.DOWNGRADE) {
+			// message panel
+			messagePanel.add(iconLabel, BorderLayout.NORTH);
+			messagePanel.add(messageLabel, BorderLayout.CENTER);
+			messagePanel.add(subtitleText, BorderLayout.SOUTH);
+			// Spacing
+			iconLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+			messageLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 8, 0));
+			subtitleText.setBorder(BorderFactory.createEmptyBorder(3, 0, 0, 0));
 
-		panel.add(iconLabel, BorderLayout.NORTH); // Icon on top
-		panel.add(messagePanel, BorderLayout.CENTER);
-		panel.add(buttonPanel, BorderLayout.SOUTH);
+			panel.add(messagePanel, BorderLayout.NORTH);
+			panel.add(versionList, BorderLayout.CENTER);
+			panel.add(buttonPanel, BorderLayout.SOUTH);
+			messagePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 8, 0));
+			versionList.setBorder(BorderFactory.createEmptyBorder(5, 0, 8, 0));
+		} else {
+			messagePanel.add(messageLabel, BorderLayout.CENTER);
+			messagePanel.add(subtitleText, BorderLayout.SOUTH);
+			messageLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0));
+			subtitleText.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
+
+			panel.add(iconLabel, BorderLayout.NORTH);
+			panel.add(messagePanel, BorderLayout.CENTER);
+			panel.add(buttonPanel, BorderLayout.SOUTH);
+			iconLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+			messagePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 8, 0));
+		}
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		add(panel);
 
 		// Adjust dialog size based on the message height
@@ -191,10 +215,19 @@ public class ModernDialog extends JDialog {
 		});
 	}
 
+	public void addComboBox(ArrayList<String> versions) {
+		for (int index = 0; index < versions.size(); index++)
+			versionList.addItem(versions.get(index));
+		adjustDialogSize();
+	}
+
+	public JComboBox<String> getComboBoc() {
+		return versionList;
+	}
+
 	// method to add a subtitle
 	public void addSubText(String text) {
 		String formattedText = text.replace("\n", "<br>");
-		// Update the subtitleText with centered content
 		subtitleText.setText("<html><div style='text-align:center;'><font color='" + getHexColor(txtColor) + "'>"
 				+ formattedText + "</font></div></html>");
 		adjustDialogSize();
@@ -203,39 +236,52 @@ public class ModernDialog extends JDialog {
 	// Method to set the appropriate icon
 	private void setIcon(IconType iconType) {
 		switch (iconType) {
-		case WARNING:
-			iconLabel.setIcon(UIManager.getIcon("OptionPane.warningIcon"));
+		case DOWNGRADE:
+			iconLabel.setIcon(ImageEffect
+					.getScaledImage(new ImageIcon(getClass().getResource("downgrade.png")).getImage(), 50, 50));
 			break;
-		case ERROR:
-			iconLabel.setIcon(UIManager.getIcon("OptionPane.errorIcon"));
-			break;
-		case INFO:
-			iconLabel.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
-			break;
-		case QUESTION:
-			iconLabel.setIcon(UIManager.getIcon("OptionPane.questionIcon"));
+		case UPDATE:
+			iconLabel.setIcon(
+					ImageEffect.getScaledImage(new ImageIcon(getClass().getResource("update.png")).getImage(), 50, 50));
 			break;
 		}
-		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	}
 
 	// Adjusts the dialog's height based on the preferred size of the message label
 	private void adjustDialogSize() {
-		int messageHeight = messagePanel.getPreferredSize().height;
-		int buttonPanelHeight = buttonPanel.getPreferredSize().height;
-		int iconHeigh = iconLabel.getPreferredSize().height;
+		if (iconT == IconType.DOWNGRADE) {
+			int messageHeight = messagePanel.getPreferredSize().height;
+			int buttonPanelHeight = buttonPanel.getPreferredSize().height;
+			int versionHeigh = versionList.getPreferredSize().height;
 
-		// Calculate preferred width based on the buttons
-		int totalButtonWidth = calculateTotalButtonWidth();
-		int messageWidth = messagePanel.getPreferredSize().width;
+			// Calculate preferred width based on the buttons
+			int totalButtonWidth = calculateTotalButtonWidth();
+			int messageWidth = messagePanel.getPreferredSize().width;
 
-		int dialogWidth = Math.max(totalButtonWidth, messageWidth) + 60; // Add padding
-		int dialogHeight = messageHeight + buttonPanelHeight + iconHeigh + 60; // Add padding for margins
+			int dialogWidth = Math.max(totalButtonWidth, messageWidth) + 60; // Add padding
+			int dialogHeight = messageHeight + buttonPanelHeight + versionHeigh + 60; // Add padding for margins
 
-		this.setSize(dialogWidth, dialogHeight);
+			this.setSize(dialogWidth, dialogHeight);
 
-		// Update rounded shape based on new size
-		this.setShape(new RoundRectangle2D.Double(0, 0, dialogWidth, dialogHeight, 20, 20));
+			// Update rounded shape based on new size
+			this.setShape(new RoundRectangle2D.Double(0, 0, dialogWidth, dialogHeight, 20, 20));
+		} else {
+			int messageHeight = messagePanel.getPreferredSize().height;
+			int buttonPanelHeight = buttonPanel.getPreferredSize().height;
+			int iconHeight = iconLabel.getPreferredSize().height;
+
+			// Calculate preferred width based on the buttons
+			int totalButtonWidth = calculateTotalButtonWidth();
+			int messageWidth = messagePanel.getPreferredSize().width;
+
+			int dialogWidth = Math.max(totalButtonWidth, messageWidth) + 60; // Add padding
+			int dialogHeight = messageHeight + buttonPanelHeight + iconHeight + 60; // Add padding for margins
+
+			this.setSize(dialogWidth, dialogHeight);
+
+			// Update rounded shape based on new size
+			this.setShape(new RoundRectangle2D.Double(0, 0, dialogWidth, dialogHeight, 20, 20));
+		}
 	}
 
 	// Method to calculate total width of buttons

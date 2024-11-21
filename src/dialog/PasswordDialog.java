@@ -81,8 +81,7 @@ public class PasswordDialog extends JDialog {
 			@Override
 			public void keyPressed(KeyEvent ke) {
 				if ((ke.getKeyCode() == KeyEvent.VK_C) && ((ke.getModifiers() & InputEvent.CTRL_MASK) != 0)) {
-					messageType = MessageType.CANCEL;
-					parent.setState(Frame.ICONIFIED);
+					parent.setState(Frame.ICONIFIED); // Minimize the main frame
 				} else if (ke.getKeyCode() == KeyEvent.VK_ENTER)
 					getRootPane().setDefaultButton(okButton);
 				else if (ke.getKeyCode() == KeyEvent.VK_ESCAPE)
@@ -188,10 +187,6 @@ public class PasswordDialog extends JDialog {
 		this.getRootPane().registerKeyboardAction(e -> {
 			cancelAction();
 		}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-
-		// Request focus for the dialog
-		this.setFocusableWindowState(true);
-		this.requestFocusInWindow();
 	}
 
 	public void showMessage(String closeMessage, String tLeft) {
