@@ -192,10 +192,9 @@ public class ModernDialog extends JDialog {
 	}
 
 	// method to add a subtitle
-	public void addSubText(String text) {
+	public void addSubText(String text, Color color) {
 		String formattedText = text.replace("\n", "<br>");
-		// Update the subtitleText with centered content
-		subtitleText.setText("<html><div style='text-align:center;'><font color='" + getHexColor(txtColor) + "'>"
+		subtitleText.setText("<html><div style='text-align:center;'><font color='" + getHexColor(color) + "'>"
 				+ formattedText + "</font></div></html>");
 		adjustDialogSize();
 	}
@@ -261,16 +260,9 @@ public class ModernDialog extends JDialog {
 	}
 
 	private void updateLabelText() {
-		if (txtColor != null && messageLabel != null) {
+		if (txtColor != null && messageLabel != null)
 			messageLabel.setText("<html><font color='" + getHexColor(txtColor) + "'>"
 					+ closeMessage.replace("\n", "<br>") + "</font></html>");
-			String formattedText = subtitleText.getText().replace("\n", "<br>");
-			// Update the subtitleText with centered content
-			subtitleText.setText("<html><div style='text-align:center;'><font color='" + getHexColor(txtColor) + "'>"
-					+ formattedText + "</font></div></html>");
-			subtitleText.setText("<html><font color='" + getHexColor(txtColor) + "'>"
-					+ subtitleText.getText().replace("\n", "<br>") + "</font></html>");
-		}
 	}
 
 	private String getHexColor(Color color) {

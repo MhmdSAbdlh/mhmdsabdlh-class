@@ -36,9 +36,9 @@ public class UpdateDialog extends JDialog {
 		super(parent, "Exit Application", false);
 		this.superF = parent;
 		overlay = new OverlayPanel();
-		overlay.setBounds(0, 0, superF.getWidth(), superF.getHeight());
+		overlay.setBounds(0, 0, parent.getWidth(), parent.getHeight());
 		overlay.setOpaque(false);
-		superF.getLayeredPane().add(overlay, JLayeredPane.PALETTE_LAYER);
+		parent.getLayeredPane().add(overlay, JLayeredPane.PALETTE_LAYER);
 		this.closeMessage = closeMessage; // Store the message
 		this.txtColor = Color.BLACK;
 		this.iconT = iconType;
@@ -127,7 +127,7 @@ public class UpdateDialog extends JDialog {
 		adjustDialogSize();
 
 		// Set position
-		setLocationRelativeTo(superF);
+		setLocationRelativeTo(parent);
 
 		// Add a MouseAdapter to detect clicks outside the dialog
 		overlay.addMouseListener(new MouseAdapter() {
@@ -226,9 +226,9 @@ public class UpdateDialog extends JDialog {
 	}
 
 	// method to add a subtitle
-	public void addSubText(String text) {
+	public void addSubText(String text, Color color) {
 		String formattedText = text.replace("\n", "<br>");
-		subtitleText.setText("<html><div style='text-align:center;'><font color='" + getHexColor(txtColor) + "'>"
+		subtitleText.setText("<html><div style='text-align:center;'><font color='" + getHexColor(color) + "'>"
 				+ formattedText + "</font></div></html>");
 		adjustDialogSize();
 	}
@@ -282,6 +282,7 @@ public class UpdateDialog extends JDialog {
 			// Update rounded shape based on new size
 			this.setShape(new RoundRectangle2D.Double(0, 0, dialogWidth, dialogHeight, 20, 20));
 		}
+		setLocationRelativeTo(superF);
 	}
 
 	// Method to calculate total width of buttons
@@ -307,16 +308,9 @@ public class UpdateDialog extends JDialog {
 	}
 
 	private void updateLabelText() {
-		if (txtColor != null && messageLabel != null) {
+		if (txtColor != null && messageLabel != null)
 			messageLabel.setText("<html><font color='" + getHexColor(txtColor) + "'>"
 					+ closeMessage.replace("\n", "<br>") + "</font></html>");
-			String formattedText = subtitleText.getText().replace("\n", "<br>");
-			// Update the subtitleText with centered content
-			subtitleText.setText("<html><div style='text-align:center;'><font color='" + getHexColor(txtColor) + "'>"
-					+ formattedText + "</font></div></html>");
-			subtitleText.setText("<html><font color='" + getHexColor(txtColor) + "'>"
-					+ subtitleText.getText().replace("\n", "<br>") + "</font></html>");
-		}
 	}
 
 	private String getHexColor(Color color) {

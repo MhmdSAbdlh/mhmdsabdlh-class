@@ -15,6 +15,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,7 +29,122 @@ public class CalculatorPanel extends JPanel implements ActionListener {
 	private boolean startOfNumber;
 	private String lastEntry;
 	@SuppressWarnings("unused")
-	private JFrame parentFrame; // Reference to the parent frame
+	private JDialog parentDialog;
+	private JFrame parentFrame;
+
+	public CalculatorPanel(JDialog parentDialog) {
+		setLayout(new BorderLayout());
+
+		this.parentDialog = parentDialog;
+		display = new JTextField("0");
+		display.setEditable(false);
+		display.setHorizontalAlignment(SwingConstants.RIGHT);
+		display.setFont(new Font("Arial", Font.PLAIN, 32));
+		display.setBackground(Color.black);
+		display.setForeground(Color.white);
+		add(display, BorderLayout.NORTH);
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(5, 4)); // Changed to 6x4 to accommodate the new buttons
+
+		String[] buttons = { "7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", "00", ".", "+", "C",
+				"Undo", "Copy", "=" };
+
+		for (String text : buttons) {
+			JButton button = new JButton(text);
+			button.addActionListener(this);
+			// Set button colors
+			if ("0123456789.".contains(text) || text.equals("00")) {
+				button.setBackground(new Color(0x781f19)); // Red for numbers
+				button.setForeground(Color.WHITE); // White text on red buttons
+			} else if ("/*-+=.".contains(text)) {
+				button.setBackground(new Color(0x091727)); // White for operators
+				button.setForeground(Color.WHITE); // Black text on white buttons
+			} else if ("C".equals(text) || "Undo".equals(text) || "Copy".equals(text)) {
+				button.setBackground(new Color(0xa4973f)); // Yellow for 'C' and 'Undo'
+				button.setForeground(Color.BLACK); // Black text on yellow buttons
+			} else {
+				button.setBackground(Color.LIGHT_GRAY); // Default color for others
+				button.setForeground(Color.BLACK); // Black text on light gray buttons
+			}
+
+			panel.add(button);
+		}
+
+		add(panel, BorderLayout.CENTER);
+		result = 0;
+		operator = "=";
+		startOfNumber = true;
+		lastEntry = "";
+
+		parentFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// Copy the non-0 to the clipboard
+				if (!display.getText().equalsIgnoreCase("0") && !display.getText().equalsIgnoreCase("0.0"))
+					copyToClipboard(display.getText());
+			}
+		});
+		display.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent ke) {
+				char c = ke.getKeyChar();
+				if (Character.isDigit(c)) { // the key is number
+					if (startOfNumber) {
+						display.setText(c + "");
+						startOfNumber = false;
+					} else {
+						lastEntry = display.getText();
+						display.setText(display.getText() + c);
+					}
+				} else if (c == '.' || c == ',') { // the key is ,
+					if (startOfNumber) {
+						display.setText(0 + ".");
+						startOfNumber = false;
+					} else {
+						lastEntry = display.getText();
+						display.setText(display.getText() + c);
+					}
+				} else if (c == '+' || c == '+' || c == '-' || c == '*' || c == '/') {
+					if (startOfNumber) {
+						operator = c + "";
+					} else {
+						calculate(Double.parseDouble(display.getText()));
+						operator = c + "";
+						startOfNumber = true;
+					}
+				} else if (c == 'c') {
+					display.setText("0");
+					result = 0;
+					operator = "=";
+					startOfNumber = true;
+					lastEntry = "";
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				// Check if 'Esc' key is pressed
+				if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					if (!display.getText().equalsIgnoreCase("0") && !display.getText().equalsIgnoreCase("0.0"))
+						copyToClipboard(display.getText());
+					parentFrame.dispose(); // Close the frame
+				} else if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (!startOfNumber) {
+						calculate(Double.parseDouble(display.getText()));
+						operator = "=";
+						startOfNumber = true;
+					}
+				} else if (ke.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+					if (display.getText().length() > 0) {
+						display.setText(display.getText().substring(0, display.getText().length() - 1));
+					}
+
+				}
+
+			}
+		});
+	}
 
 	public CalculatorPanel(JFrame parentFrame) {
 		setLayout(new BorderLayout());
@@ -81,7 +197,6 @@ public class CalculatorPanel extends JPanel implements ActionListener {
 				// Copy the non-0 to the clipboard
 				if (!display.getText().equalsIgnoreCase("0") && !display.getText().equalsIgnoreCase("0.0"))
 					copyToClipboard(display.getText());
-
 			}
 		});
 		display.addKeyListener(new KeyAdapter() {
