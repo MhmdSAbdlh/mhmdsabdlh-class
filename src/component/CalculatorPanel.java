@@ -30,6 +30,7 @@ public class CalculatorPanel extends JPanel implements ActionListener {
 	private String lastEntry;
 	@SuppressWarnings("unused")
 	private JDialog parentDialog;
+	@SuppressWarnings("unused")
 	private JFrame parentFrame;
 
 	public CalculatorPanel(JDialog parentDialog) {
@@ -77,7 +78,7 @@ public class CalculatorPanel extends JPanel implements ActionListener {
 		startOfNumber = true;
 		lastEntry = "";
 
-		parentFrame.addWindowListener(new WindowAdapter() {
+		parentDialog.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// Copy the non-0 to the clipboard
@@ -128,7 +129,7 @@ public class CalculatorPanel extends JPanel implements ActionListener {
 				if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					if (!display.getText().equalsIgnoreCase("0") && !display.getText().equalsIgnoreCase("0.0"))
 						copyToClipboard(display.getText());
-					parentFrame.dispose(); // Close the frame
+					parentDialog.dispose(); // Close the frame
 				} else if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (!startOfNumber) {
 						calculate(Double.parseDouble(display.getText()));
