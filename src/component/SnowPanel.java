@@ -67,8 +67,12 @@ public class SnowPanel extends JPanel {
 		}
 	}
 
-	public void stopSnow() {
-		timer.stop();
+	public void stopNow() {
+	    if (timer != null && timer.isRunning()) {
+	        timer.stop(); // Stop the timer
+	    }
+	    snowflakes.clear(); // Remove all snowflakes
+	    repaint(); // Redraw the panel to reflect the changes
 	}
 
 	private void drawStar(Graphics2D g2d, int x, int y, int size, double rotation) {
