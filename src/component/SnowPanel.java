@@ -68,11 +68,11 @@ public class SnowPanel extends JPanel {
 	}
 
 	public void stopNow() {
-	    if (timer != null && timer.isRunning()) {
-	        timer.stop(); // Stop the timer
-	    }
-	    snowflakes.clear(); // Remove all snowflakes
-	    repaint(); // Redraw the panel to reflect the changes
+		if (timer != null && timer.isRunning()) {
+			timer.stop(); // Stop the timer
+		}
+		snowflakes.clear(); // Remove all snowflakes
+		repaint(); // Redraw the panel to reflect the changes
 	}
 
 	private void drawStar(Graphics2D g2d, int x, int y, int size, double rotation) {
@@ -181,8 +181,7 @@ public class SnowPanel extends JPanel {
 	}
 
 	private void drawConfetti(Graphics2D g2d, int x, int y, int size) {
-		g2d.setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255))); // Random confetti
-																								// colors
+		g2d.setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255)));
 		g2d.fillRect(x, y, size, size); // Draw small rectangle as confetti
 	}
 
@@ -195,8 +194,7 @@ public class SnowPanel extends JPanel {
 			int x2 = (int) (x + Math.cos(angle) * radius);
 			int y2 = (int) (y + Math.sin(angle) * radius);
 
-			g2d.setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255))); // Random colors for
-																									// fireworks
+			g2d.setColor(new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255))); // Random colors
 			g2d.drawLine(x, y, x2, y2);
 		}
 	}
@@ -215,35 +213,28 @@ public class SnowPanel extends JPanel {
 			if (shape == Shape.CIRCLE) {
 				g2d.setColor(fillColor);
 				g2d.fillOval(snowflake.x, snowflake.y, snowflake.size, snowflake.size);
-				// Draw the border (outer color)
 				g2d.setColor(borderColor); // Define borderColor as a Color variable
 				g2d.drawOval(snowflake.x, snowflake.y, snowflake.size, snowflake.size);
 			} else if (shape == Shape.STAR) {
 				g2d.setColor(fillColor);
 				drawStar(g2d, snowflake.x, snowflake.y, snowflake.size * 2, snowflake.rotation);
 			} else if (shape == Shape.BALLON) {
-				g2d.setColor(snowflake.color); // Use unique color for balloons
 				drawBalloon(g2d, snowflake.x, snowflake.y, snowflake.size * 2, snowflake.color);
 			} else if (shape == Shape.MOON) {
 				g2d.setColor(fillColor); // Set the fill color for the moon
 				drawCrescentMoon(g2d, snowflake.x, snowflake.y, snowflake.size * 4);
 			} else if (shape == Shape.CHRISTMAS_TREE) {
-				g2d.setColor(fillColor);
 				drawChristmasTree(g2d, snowflake.x, snowflake.y, snowflake.size * 2);
 			} else if (shape == Shape.CHRISTMAS_STAR) {
-				g2d.setColor(fillColor);
 				drawColoredSnowflake(g2d, snowflake.x, snowflake.y, snowflake.size * 2, snowflake.rotation);
 			} else if (shape == Shape.FRACTAL) {
 				g2d.setColor(fillColor);
 				drawFractalSnowflake(g2d, snowflake.x, snowflake.y, snowflake.size);
 			} else if (shape == Shape.BLOOD) {
-				g2d.setColor(fillColor);
 				drawBlood(g2d, snowflake.x, snowflake.y, snowflake.size);
 			} else if (shape == Shape.FIREWORK) {
-				g2d.setColor(fillColor);
 				drawFirework(g2d, snowflake.x, snowflake.y, snowflake.size * 2);
 			} else if (shape == Shape.CONFETTI) {
-				g2d.setColor(fillColor);
 				drawConfetti(g2d, snowflake.x, snowflake.y, snowflake.size);
 			}
 		}
