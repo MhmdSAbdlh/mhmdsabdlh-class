@@ -5,6 +5,7 @@ import javax.swing.border.LineBorder;
 
 import mhmdsabdlh.component.OverlayPanel;
 import mhmdsabdlh.component.RoundButton;
+import mhmdsabdlh.component.TextField;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -14,11 +15,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.RoundRectangle2D;
 
-public class ModernDialog extends JDialog {
+public class ModernInputDialog extends JDialog {
 
 	private JPanel buttonPanel, messagePanel;
 	private JLabel messageLabel, iconLabel, subtitleText;
 	private String closeMessage;
+	private TextField userMessage;
 	private Color borderColor, panelColor, txtColor;
 	private OverlayPanel overlay;
 	private final JFrame superF;
@@ -29,7 +31,7 @@ public class ModernDialog extends JDialog {
 		WARNING, ERROR, INFO, QUESTION
 	}
 
-	public ModernDialog(JFrame parent, String closeMessage, boolean isModal) {
+	public ModernInputDialog(JFrame parent, String closeMessage, boolean isModal) {
 		super(parent, "Exit Application", isModal);
 		this.superF = parent;
 		overlay = new OverlayPanel();
@@ -84,8 +86,13 @@ public class ModernDialog extends JDialog {
 				JLabel.CENTER);
 		subtitleText.setFont(new Font("Arial", Font.ITALIC, 14));
 
-		messagePanel.add(messageLabel, BorderLayout.CENTER);
-		messagePanel.add(subtitleText, BorderLayout.AFTER_LAST_LINE);
+		userMessage = new TextField();
+		userMessage.setFont(new Font("Arial", Font.BOLD, 16));
+		userMessage.setForeground(panelColor);
+
+		messagePanel.add(messageLabel, BorderLayout.NORTH);
+		messagePanel.add(subtitleText, BorderLayout.CENTER);
+		messagePanel.add(userMessage, BorderLayout.SOUTH);
 
 		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
 		buttonPanel.setOpaque(false); // Transparent background for buttons
@@ -204,6 +211,10 @@ public class ModernDialog extends JDialog {
 		adjustDialogSize();
 	}
 
+	public String getTextField() {
+		return userMessage.getText();
+	}
+
 	// Method to set the appropriate icon
 	public void setIcon(IconType iconType) {
 		switch (iconType) {
@@ -221,65 +232,6 @@ public class ModernDialog extends JDialog {
 			break;
 		}
 		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	}
-
-	public void setBorderColor(Color newColor) {
-		this.borderColor = newColor;
-	}
-
-	public void setColor(Color bgColor) {
-		this.panelColor = bgColor;
-	}
-
-	public void setTextColor(Color textC) {
-		this.txtColor = textC;
-		updateLabelText();
-	}
-
-	// Method to add a main button (e.g., "Yes", "No")
-	public void addMainButton(String text, Color color, Runnable action) {
-		RoundButton button = new RoundButton(text, 10);
-		button.setFillColor(color);
-		button.setForeground(Color.WHITE);
-		button.setBorderColor(Color.WHITE);
-		button.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.WHITE, 1),
-				BorderFactory.createEmptyBorder(10, 20, 10, 20)));
-		button.addActionListener(e -> {
-			Timer fadeOutTimer = new Timer(10, null);
-			fadeOutTimer.addActionListener(e1 -> {
-				float opacity = getOpacity();
-				float currentAlpha = overlay.getAlpha();
-				if (opacity > 0.05f) {
-					setOpacity(opacity - 0.05f); // Decrease opacity gradually
-				} else {
-					fadeOutTimer.stop(); // Stop timer when fully transparent
-					dispose(); // Dispose the dialog
-					action.run();
-				}
-				if (currentAlpha > 0.05f) {
-					overlay.setAlpha(currentAlpha - 0.05f); // Increase opacity gradually
-				} else {
-					overlay.setAlpha(currentAlpha);
-				}
-			});
-			fadeOutTimer.start(); // Start fade-out effect
-		});
-		buttonPanel.add(button);
-		buttonPanel.revalidate(); // Refresh the button panel to show the new button
-		buttonPanel.repaint();
-		adjustDialogSize(); // Adjust size when a new button is added
-	}
-
-	// Set the dimed panel color
-	public void setOverlayColor(Color color) {
-		if (overlay != null) {
-			overlay.setOverlayColor(color);
-		}
-	}
-
-	// Method to set the callback
-	public void setOnDisposeCallback(Runnable callback) {
-		this.onDisposeCallback = callback;
 	}
 
 	// Adjusts the dialog's height based on the preferred size of the message label
@@ -310,6 +262,20 @@ public class ModernDialog extends JDialog {
 		return totalWidth + (buttonPanel.getComponentCount() - 1) * 20; // Adding space between buttons
 	}
 
+	public void setBorderColor(Color newColor) {
+		this.borderColor = newColor;
+	}
+
+	public void setColor(Color bgColor) {
+		this.panelColor = bgColor;
+		userMessage.setForeground(bgColor);
+	}
+
+	public void setTextColor(Color textC) {
+		this.txtColor = textC;
+		updateLabelText();
+	}
+
 	private void updateLabelText() {
 		if (txtColor != null && messageLabel != null)
 			messageLabel.setText("<html><font color='" + getHexColor(txtColor) + "'>"
@@ -318,6 +284,53 @@ public class ModernDialog extends JDialog {
 
 	private String getHexColor(Color color) {
 		return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
+	}
+
+	// Method to add a main button (e.g., "Yes", "No")
+	public void addMainButton(String text, Color color, Runnable action, boolean isDefault) {
+		RoundButton button = new RoundButton(text, 10);
+		button.setFillColor(color);
+		button.setForeground(Color.WHITE);
+		button.setBorderColor(Color.WHITE);
+		button.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.WHITE, 1),
+				BorderFactory.createEmptyBorder(10, 20, 10, 20)));
+		button.addActionListener(e -> {
+			Timer fadeOutTimer = new Timer(10, null);
+			fadeOutTimer.addActionListener(e1 -> {
+				float opacity = getOpacity();
+				float currentAlpha = overlay.getAlpha();
+				if (opacity > 0.05f) {
+					setOpacity(opacity - 0.05f); // Decrease opacity gradually
+				} else {
+					fadeOutTimer.stop(); // Stop timer when fully transparent
+					dispose(); // Dispose the dialog
+					action.run();
+				}
+				if (currentAlpha > 0.05f) {
+					overlay.setAlpha(currentAlpha - 0.05f); // Increase opacity gradually
+				} else {
+					overlay.setAlpha(currentAlpha);
+				}
+			});
+			fadeOutTimer.start(); // Start fade-out effect
+		});
+		buttonPanel.add(button);
+		buttonPanel.revalidate(); // Refresh the button panel to show the new button
+		buttonPanel.repaint();
+		adjustDialogSize(); // Adjust size when a new button is added
+		if (isDefault)
+			getRootPane().setDefaultButton(button); // Set the default button
+	}
+
+	public void setOverlayColor(Color color) {
+		if (overlay != null) {
+			overlay.setOverlayColor(color);
+		}
+	}
+
+	// Method to set the callback
+	public void setOnDisposeCallback(Runnable callback) {
+		this.onDisposeCallback = callback;
 	}
 
 	// Don't forget to clean up overlay when disposing

@@ -3,6 +3,7 @@ package mhmdsabdlh.dialog;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import mhmdsabdlh.component.OverlayPanel;
 import mhmdsabdlh.component.RoundButton;
 import mhmdsabdlh.images.ImageEffect;
 
@@ -322,8 +323,8 @@ public class UpdateDialog extends JDialog {
 		RoundButton button = new RoundButton(text, 10);
 		button.setFillColor(color);
 		button.setForeground(Color.WHITE);
-		button.setBorderColor(borderColor);
-		button.setBorder(BorderFactory.createCompoundBorder(new LineBorder(borderColor, 1),
+		button.setBorderColor(Color.WHITE);
+		button.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.WHITE, 1),
 				BorderFactory.createEmptyBorder(10, 20, 10, 20)));
 		button.addActionListener(e -> {
 			Timer fadeOutTimer = new Timer(10, null);
@@ -373,39 +374,6 @@ public class UpdateDialog extends JDialog {
 		if (overlay != null) {
 			superF.getLayeredPane().remove(overlay);
 			superF.getLayeredPane().repaint();
-		}
-	}
-
-	// Create a custom overlay panel
-	class OverlayPanel extends JPanel {
-		private float alpha = 0f; // Starting alpha (0% transparency)
-		private Color overlayColor = new Color(255, 255, 255); // Default color: white
-
-		@Override
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			Graphics2D g2d = (Graphics2D) g;
-			g2d.setColor(new Color(overlayColor.getRed(), overlayColor.getGreen(), overlayColor.getBlue(),
-					(int) (alpha * 255))); // Alpha transparency
-			g2d.fillRect(0, 0, getWidth(), getHeight());
-		}
-
-		public void setAlpha(float alpha) {
-			this.alpha = alpha;
-			repaint(); // Repaint the panel with updated alpha
-		}
-
-		public float getAlpha() {
-			return this.alpha;
-		}
-
-		public void setOverlayColor(Color color) {
-			this.overlayColor = color; // Update the overlay color
-			repaint(); // Repaint the panel with the new color
-		}
-
-		public Color getOverlayColor() {
-			return this.overlayColor;
 		}
 	}
 }
