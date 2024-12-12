@@ -88,7 +88,7 @@ public class ModernInputDialog extends JDialog {
 
 		userMessage = new TextField();
 		userMessage.setFont(new Font("Arial", Font.BOLD, 16));
-		userMessage.setForeground(panelColor);
+		userMessage.setForeground(Color.black);
 
 		messagePanel.add(messageLabel, BorderLayout.NORTH);
 		messagePanel.add(subtitleText, BorderLayout.CENTER);
@@ -268,7 +268,6 @@ public class ModernInputDialog extends JDialog {
 
 	public void setColor(Color bgColor) {
 		this.panelColor = bgColor;
-		userMessage.setForeground(bgColor);
 	}
 
 	public void setTextColor(Color textC) {

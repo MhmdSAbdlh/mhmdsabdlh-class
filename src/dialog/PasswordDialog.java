@@ -32,7 +32,7 @@ public class PasswordDialog extends JDialog {
 		// Customize dialog's look
 		setUndecorated(true); // Removes the default window frame
 		setLayout(new BorderLayout());
-		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setSize(400, 300);
 
 		// Create icon label
