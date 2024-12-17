@@ -75,8 +75,9 @@ public class PasswordDialog extends JDialog {
 		messageLabel.setPreferredSize(new Dimension(400, 50));
 
 		passwordField = new PasswordField();
-		passwordField.setFont(new Font("Arial", Font.PLAIN, 14));
+		passwordField.setFont(new Font("Arial", Font.PLAIN, 18));
 		passwordField.setHorizontalAlignment(0);
+		passwordField.setForeground(Color.black);
 		passwordField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
@@ -110,7 +111,7 @@ public class PasswordDialog extends JDialog {
 
 				// Check if it matches the correct password
 				if (enteredPassword.equals(correctPassword)) {
-					Timer fadeOutTimer = new Timer(15, null);
+					Timer fadeOutTimer = new Timer(5, null);
 					fadeOutTimer.addActionListener(e1 -> {
 						float opacity = getOpacity();
 						if (opacity > 0.05f) {
@@ -195,7 +196,7 @@ public class PasswordDialog extends JDialog {
 		passwordField.setText("");
 		// Inside the constructor, after the dialog size and location configuration
 		setOpacity(0f); // Set initial opacity to 0 (fully transparent)
-		Timer fadeInTimer = new Timer(15, null);
+		Timer fadeInTimer = new Timer(5, null);
 		fadeInTimer.addActionListener(e -> {
 			float opacity = getOpacity();
 			if (opacity < 0.95f) {

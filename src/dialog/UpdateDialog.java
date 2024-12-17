@@ -139,7 +139,7 @@ public class UpdateDialog extends JDialog {
 
 				Rectangle dialogBounds = getBounds();
 				if (!dialogBounds.contains(mousePoint)) {
-					Timer fadeOutTimer = new Timer(10, null);
+					Timer fadeOutTimer = new Timer(5, null);
 					fadeOutTimer.addActionListener(e1 -> {
 						float opacity = getOpacity();
 						float currentAlpha = overlay.getAlpha();
@@ -162,7 +162,7 @@ public class UpdateDialog extends JDialog {
 
 		// Inside the constructor, after the dialog size and location configuration
 		setOpacity(0f); // Set initial opacity to 0 (fully transparent)
-		Timer fadeInTimer = new Timer(10, null);
+		Timer fadeInTimer = new Timer(5, null);
 		fadeInTimer.addActionListener(e -> {
 			float opacity = getOpacity();
 			float currentAlpha = overlay.getAlpha();
@@ -182,7 +182,7 @@ public class UpdateDialog extends JDialog {
 
 		// Key listener to close the dialog on Esc key press
 		getRootPane().registerKeyboardAction(e -> {
-			Timer fadeOutTimer = new Timer(10, null);
+			Timer fadeOutTimer = new Timer(5, null);
 			fadeOutTimer.addActionListener(e1 -> {
 				float opacity = getOpacity();
 				float currentAlpha = overlay.getAlpha();
@@ -327,7 +327,7 @@ public class UpdateDialog extends JDialog {
 		button.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.WHITE, 1),
 				BorderFactory.createEmptyBorder(10, 20, 10, 20)));
 		button.addActionListener(e -> {
-			Timer fadeOutTimer = new Timer(10, null);
+			Timer fadeOutTimer = new Timer(5, null);
 			fadeOutTimer.addActionListener(e1 -> {
 				float opacity = getOpacity();
 				float currentAlpha = overlay.getAlpha();
