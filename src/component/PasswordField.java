@@ -82,7 +82,7 @@ public class PasswordField extends JPasswordField {
 				ImageIcon eyeIcon = new ImageIcon(getClass().getResource("eye.png"));
 
 				// Calculate the position to center the icon
-				int x = (getWidth() - eyeIcon.getIconWidth()) / 2;
+				int x = (getWidth() - eyeIcon.getIconWidth()) / 2-1;
 				int y = (getHeight() - eyeIcon.getIconHeight()) / 2;
 
 				// Draw the eye icon
@@ -156,7 +156,7 @@ public class PasswordField extends JPasswordField {
 		if (getBorder() != null) {
 			g2.setColor(Color.BLACK); // Customize border color
 			g2.setStroke(new java.awt.BasicStroke(2)); // Customize border thickness
-			g2.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 2, getHeight() - 2, round, round));
+			g2.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, round, round));
 		}
 
 		g2.dispose();

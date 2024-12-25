@@ -1,13 +1,19 @@
 package mhmdsabdlh.dialog;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-
-import mhmdsabdlh.component.OverlayPanel;
-import mhmdsabdlh.component.RoundButton;
-import mhmdsabdlh.component.TextField;
-
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,13 +21,29 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.RoundRectangle2D;
 
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+import mhmdsabdlh.component.OverlayPanel;
+import mhmdsabdlh.component.RoundButton;
+import mhmdsabdlh.component.TextArea;
+
 public class ModernInputDialog extends JDialog {
 
 	private JPanel buttonPanel, messagePanel;
 	private JLabel messageLabel, iconLabel, subtitleText;
 	private String closeMessage;
-	private TextField userMessage;
-	private Color borderColor, panelColor, txtColor;
+	private TextArea userMessage;
+	private Color panelColor, txtColor;
 	private OverlayPanel overlay;
 	private final JFrame superF;
 	private Runnable onDisposeCallback;
@@ -66,7 +88,7 @@ public class ModernInputDialog extends JDialog {
 				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
 
 				// Set border color and thickness
-				g2.setColor(borderColor); // Example border color
+				g2.setColor(txtColor); // Example border color
 				g2.setStroke(new BasicStroke(2)); // Example border thickness (3 pixels)
 				g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 20, 20); // Draw border with small padding
 			}
@@ -86,7 +108,7 @@ public class ModernInputDialog extends JDialog {
 				JLabel.CENTER);
 		subtitleText.setFont(new Font("Arial", Font.ITALIC, 14));
 
-		userMessage = new TextField();
+		userMessage = new TextArea();
 		userMessage.setFont(new Font("Arial", Font.BOLD, 16));
 		userMessage.setForeground(Color.black);
 
@@ -128,8 +150,8 @@ public class ModernInputDialog extends JDialog {
 						fadeOutTimer.addActionListener(e1 -> {
 							float opacity = getOpacity();
 							float currentAlpha = overlay.getAlpha();
-							if (opacity > 0.05f) {
-								setOpacity(opacity - 0.05f); // Decrease opacity gradually
+							if (opacity > 0.1f) {
+								setOpacity(opacity - 0.1f); // Decrease opacity gradually
 							} else {
 								fadeOutTimer.stop(); // Stop timer when fully transparent
 								dispose(); // Dispose the dialog
@@ -137,7 +159,7 @@ public class ModernInputDialog extends JDialog {
 							if (currentAlpha > 0.05f) {
 								overlay.setAlpha(currentAlpha - 0.05f); // Increase opacity gradually
 							} else {
-								overlay.setAlpha(currentAlpha);
+								overlay.setAlpha(0);
 							}
 						});
 						fadeOutTimer.start();
@@ -151,16 +173,16 @@ public class ModernInputDialog extends JDialog {
 		fadeInTimer.addActionListener(e -> {
 			float opacity = getOpacity();
 			float currentAlpha = overlay.getAlpha();
-			if (opacity < 0.95f) {
-				setOpacity(opacity + 0.05f); // Increase opacity gradually
+			if (opacity < 0.9f) {
+				setOpacity(opacity + 0.1f); // Increase opacity gradually
 			} else {
-				setOpacity(1f); // Increase opacity gradually
+				setOpacity(1); // Increase opacity gradually
 				fadeInTimer.stop(); // Stop timer when fully visible
 			}
 			if (currentAlpha < 0.5f) {
 				overlay.setAlpha(currentAlpha + 0.05f); // Increase opacity gradually
 			} else {
-				overlay.setAlpha(currentAlpha);
+				overlay.setAlpha(0.5f);
 			}
 		});
 		fadeInTimer.start(); // Start fade-in effect
@@ -172,8 +194,8 @@ public class ModernInputDialog extends JDialog {
 				fadeOutTimer.addActionListener(e1 -> {
 					float opacity = getOpacity();
 					float currentAlpha = overlay.getAlpha();
-					if (opacity > 0.05f) {
-						setOpacity(opacity - 0.05f); // Decrease opacity gradually
+					if (opacity > 0.1f) {
+						setOpacity(opacity - 0.1f); // Decrease opacity gradually
 					} else {
 						fadeOutTimer.stop(); // Stop timer when fully transparent
 						dispose(); // Dispose the dialog
@@ -181,7 +203,7 @@ public class ModernInputDialog extends JDialog {
 					if (currentAlpha > 0.05f) {
 						overlay.setAlpha(currentAlpha - 0.05f); // Increase opacity gradually
 					} else {
-						overlay.setAlpha(currentAlpha);
+						overlay.setAlpha(0);
 					}
 				});
 				fadeOutTimer.start(); // Start fade-out effect
@@ -262,10 +284,6 @@ public class ModernInputDialog extends JDialog {
 		return totalWidth + (buttonPanel.getComponentCount() - 1) * 20; // Adding space between buttons
 	}
 
-	public void setBorderColor(Color newColor) {
-		this.borderColor = newColor;
-	}
-
 	public void setColor(Color bgColor) {
 		this.panelColor = bgColor;
 	}
@@ -286,20 +304,18 @@ public class ModernInputDialog extends JDialog {
 	}
 
 	// Method to add a main button (e.g., "Yes", "No")
-	public void addMainButton(String text, Color color, Runnable action, boolean isDefault) {
+	public void addButton(String text, Color color, Runnable action, boolean isDefault) {
 		RoundButton button = new RoundButton(text, 10);
 		button.setFillColor(color);
 		button.setForeground(Color.WHITE);
-		button.setBorderColor(Color.WHITE);
-		button.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.WHITE, 1),
-				BorderFactory.createEmptyBorder(10, 20, 10, 20)));
+		button.setBorderColorAndRadius(txtColor);
 		button.addActionListener(e -> {
 			Timer fadeOutTimer = new Timer(5, null);
 			fadeOutTimer.addActionListener(e1 -> {
 				float opacity = getOpacity();
 				float currentAlpha = overlay.getAlpha();
-				if (opacity > 0.05f) {
-					setOpacity(opacity - 0.05f); // Decrease opacity gradually
+				if (opacity > 0.1f) {
+					setOpacity(opacity - 0.1f); // Decrease opacity gradually
 				} else {
 					fadeOutTimer.stop(); // Stop timer when fully transparent
 					dispose(); // Dispose the dialog
@@ -308,7 +324,7 @@ public class ModernInputDialog extends JDialog {
 				if (currentAlpha > 0.05f) {
 					overlay.setAlpha(currentAlpha - 0.05f); // Increase opacity gradually
 				} else {
-					overlay.setAlpha(currentAlpha);
+					overlay.setAlpha(0);
 				}
 			});
 			fadeOutTimer.start(); // Start fade-out effect
@@ -317,8 +333,32 @@ public class ModernInputDialog extends JDialog {
 		buttonPanel.revalidate(); // Refresh the button panel to show the new button
 		buttonPanel.repaint();
 		adjustDialogSize(); // Adjust size when a new button is added
-		if (isDefault)
-			getRootPane().setDefaultButton(button); // Set the default button
+
+		userMessage.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if ((e.getKeyCode() == KeyEvent.VK_ENTER) && ((e.getModifiers() & InputEvent.CTRL_MASK) != 0)) {
+					Timer fadeOutTimer = new Timer(5, null);
+					fadeOutTimer.addActionListener(e1 -> {
+						float opacity = getOpacity();
+						float currentAlpha = overlay.getAlpha();
+						if (opacity > 0.1f) {
+							setOpacity(opacity - 0.1f); // Decrease opacity gradually
+						} else {
+							fadeOutTimer.stop(); // Stop timer when fully transparent
+							dispose(); // Dispose the dialog
+							action.run();
+						}
+						if (currentAlpha > 0.05f) {
+							overlay.setAlpha(currentAlpha - 0.05f); // Increase opacity gradually
+						} else {
+							overlay.setAlpha(0);
+						}
+					});
+					fadeOutTimer.start(); // Start fade-out effect
+				}
+			}
+		});
 	}
 
 	public void setOverlayColor(Color color) {

@@ -1,9 +1,17 @@
 package mhmdsabdlh.component;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.JButton;
 
 public class RoundButton extends JButton {
 	private int radius;
@@ -26,51 +34,67 @@ public class RoundButton extends JButton {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				isHovering = true; // Set hovering state to true
-				repaint(); // Repaint to apply hover color
+				isHovering = true;
+				repaint(getBounds()); // Only repaint the button
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				isHovering = false; // Set hovering state to false
-				repaint(); // Repaint to revert to original color
+				isHovering = false;
+				repaint(getBounds()); // Only repaint the button
 			}
 		});
 	}
 
 	public void setFillColor(Color fillColor) {
 		this.fillColor = fillColor;
-		this.hoverColor = fillColor.darker(); // Update hover color based on new fill color
-		repaint(); // Repaint to apply color change
+		this.hoverColor = fillColor.brighter().equals(fillColor) ? fillColor.darker() : fillColor.brighter();
+		repaint();
 	}
 
-	public void setBorderColor(Color borderC) {
-		this.borderColor = borderC;
-		repaint(); // Repaint to apply color change
+	public void setBorderColorAndRadius(Color borderColor) {
+		this.borderColor = borderColor;
+
+		if (borderColor == null)
+			setBorder(null);
+		else
+			setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(borderColor, 1),
+					BorderFactory.createEmptyBorder(10, 20, 10, 20)));
+
+		repaint(); // Repaint to apply changes
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g.create();
+		super.paintComponent(g);
 
-		// Enable anti-aliasing for smooth edges
+		Graphics2D g2 = (Graphics2D) g.create();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		// Use hover color if hovering, else use fill color
-		g2.setColor(isHovering ? hoverColor : fillColor);
+		GradientPaint gradient = new GradientPaint(0, 0, isHovering ? hoverColor : fillColor, 0, getHeight(),
+				fillColor.darker());
+		g2.setPaint(gradient);
 		g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
 
-		// Draw the text in the center of the button
-		FontMetrics fm = g2.getFontMetrics();
-		int textX = (getWidth() - fm.stringWidth(getText())) / 2;
-		int textY = (getHeight() + fm.getAscent() - fm.getDescent()) / 2;
+		// Draw the icon if it exists
+		Icon icon = getIcon();
+		if (icon != null) {
+			int iconX = (getWidth() - icon.getIconWidth()) / 2;
+			int iconY = (getHeight() - icon.getIconHeight()) / 2;
+			icon.paintIcon(this, g2, iconX, iconY);
+		}
 
-		g2.setColor(getForeground());
-		g2.drawString(getText(), textX, textY);
+		if (getText() != null && !getText().isEmpty()) {
+			FontMetrics fm = g2.getFontMetrics();
+			int textX = (getWidth() - fm.stringWidth(getText())) / 2;
+			int textY = (getHeight() + fm.getAscent() - fm.getDescent()) / 2;
+
+			// Draw actual text
+			g2.setColor(getForeground());
+			g2.drawString(getText(), textX, textY);
+		}
 
 		g2.dispose();
-
-		super.paintComponent(g);
 	}
 
 	@Override

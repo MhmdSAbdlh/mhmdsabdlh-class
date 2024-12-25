@@ -1,18 +1,36 @@
 package mhmdsabdlh.dialog;
 
-import javax.swing.*;
-import javax.swing.border.LineBorder;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.geom.RoundRectangle2D;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import mhmdsabdlh.component.PasswordField;
 import mhmdsabdlh.component.RoundButton;
-
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.geom.RoundRectangle2D;
 
 public class PasswordDialog extends JDialog {
 
@@ -20,7 +38,7 @@ public class PasswordDialog extends JDialog {
 	private JLabel messageLabel, iconLabel, tryLeft;
 	private PasswordField passwordField;
 	private String correctPassword;
-	private Color borderColor, panelColor, txtColor;
+	private Color panelColor, txtColor;
 	private MessageType messageType = MessageType.CANCEL;
 	private RoundButton okButton = new RoundButton("OK", 10);
 	private RoundButton noButton = new RoundButton("CANCEL", 10);
@@ -37,11 +55,11 @@ public class PasswordDialog extends JDialog {
 
 		// Create icon label
 		iconLabel = new JLabel();
-		iconLabel.setIcon(new ImageIcon(getClass().getResource("/mhmdsabdlh/dialog/lock.png")));
+		iconLabel.setIcon(new ImageIcon(getClass().getResource("lock.png")));
 		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		// Apply rounded shape to the dialog
-		setShape(new RoundRectangle2D.Double(0, 0, 400, 300, 20, 20)); // Rounded corners
+		setShape(new RoundRectangle2D.Double(0, 0, 400, 300, 10, 10)); // Rounded corners
 
 		// Background panel with rounded corners and a custom color
 		JPanel panel = new JPanel() {
@@ -53,12 +71,12 @@ public class PasswordDialog extends JDialog {
 
 				// Set background color
 				g2.setColor(panelColor);
-				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+				g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
 
 				// Set border color and thickness
-				g2.setColor(borderColor); // Example border color
+				g2.setColor(txtColor); // Example border color
 				g2.setStroke(new BasicStroke(2)); // Example border thickness (3 pixels)
-				g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 20, 20); // Draw border with small padding
+				g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10); // Draw border with small padding
 			}
 		};
 		panel.setLayout(new BorderLayout());
@@ -111,11 +129,11 @@ public class PasswordDialog extends JDialog {
 
 				// Check if it matches the correct password
 				if (enteredPassword.equals(correctPassword)) {
-					Timer fadeOutTimer = new Timer(5, null);
+					Timer fadeOutTimer = new Timer(10, null);
 					fadeOutTimer.addActionListener(e1 -> {
 						float opacity = getOpacity();
-						if (opacity > 0.05f) {
-							setOpacity(opacity - 0.05f); // Decrease opacity gradually
+						if (opacity > 0.1f) {
+							setOpacity(opacity - 0.1f); // Decrease opacity gradually
 						} else {
 							fadeOutTimer.stop(); // Stop timer when fully transparent
 							okAction();
@@ -145,16 +163,12 @@ public class PasswordDialog extends JDialog {
 
 		okButton.setFillColor(new Color(0x09443c));
 		okButton.setForeground(Color.WHITE);
-		okButton.setBorderColor(borderColor);
-		okButton.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.white, 1),
-				BorderFactory.createEmptyBorder(10, 20, 10, 20)));
+		okButton.setBorderColorAndRadius(txtColor);
 		okButton.addActionListener(e -> okAction());
 
 		noButton.setFillColor(new Color(0x781f19));
 		noButton.setForeground(Color.WHITE);
-		noButton.setBorderColor(borderColor);
-		noButton.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.white, 1),
-				BorderFactory.createEmptyBorder(10, 20, 10, 20)));
+		noButton.setBorderColorAndRadius(txtColor);
 		noButton.addActionListener(e -> cancelAction());
 
 		Dimension size = okButton.getPreferredSize();
@@ -196,13 +210,13 @@ public class PasswordDialog extends JDialog {
 		passwordField.setText("");
 		// Inside the constructor, after the dialog size and location configuration
 		setOpacity(0f); // Set initial opacity to 0 (fully transparent)
-		Timer fadeInTimer = new Timer(5, null);
+		Timer fadeInTimer = new Timer(10, null);
 		fadeInTimer.addActionListener(e -> {
 			float opacity = getOpacity();
-			if (opacity < 0.95f) {
-				setOpacity(opacity + 0.05f); // Increase opacity gradually
+			if (opacity < 0.9f) {
+				setOpacity(opacity + 0.1f); // Increase opacity gradually
 			} else {
-				setOpacity(1f); // Increase opacity gradually
+				setOpacity(1); // Increase opacity gradually
 				fadeInTimer.stop(); // Stop timer when fully visible
 			}
 		});
@@ -210,11 +224,7 @@ public class PasswordDialog extends JDialog {
 		setVisible(true);
 	}
 
-	public void setBorderColor(Color newColor) {
-		this.borderColor = newColor;
-	}
-
-	public void setColor(Color bgColor) {
+	public void setFillColor(Color bgColor) {
 		this.panelColor = bgColor;
 	}
 
@@ -222,6 +232,8 @@ public class PasswordDialog extends JDialog {
 		this.txtColor = textC;
 		tryLeft.setForeground(txtColor);
 		messageLabel.setForeground(txtColor);
+		okButton.setBorderColorAndRadius(txtColor);
+		noButton.setBorderColorAndRadius(txtColor);
 	}
 
 	public void setPassword(String password) {
