@@ -36,6 +36,7 @@ public class SnowPanel extends JPanel {
 			}
 			repaint();
 		});
+		setVisible(false);
 	}
 
 	public void setFillColor(Color col) {
@@ -64,6 +65,7 @@ public class SnowPanel extends JPanel {
 				}
 			}
 			timer.start();
+			setVisible(true);
 		}
 	}
 
@@ -71,6 +73,7 @@ public class SnowPanel extends JPanel {
 		if (timer != null && timer.isRunning()) {
 			timer.stop(); // Stop the timer
 		}
+		setVisible(false);
 		snowflakes.clear(); // Remove all snowflakes
 		repaint(); // Redraw the panel to reflect the changes
 	}
