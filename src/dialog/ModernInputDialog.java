@@ -33,6 +33,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
+
 import mhmdsabdlh.component.OverlayPanel;
 import mhmdsabdlh.component.RoundButton;
 import mhmdsabdlh.component.TextArea;
@@ -67,11 +68,6 @@ public class ModernInputDialog extends JDialog {
 		setUndecorated(true); // Removes the default window frame
 		setLayout(new BorderLayout());
 
-		// Create icon label
-		iconLabel = new JLabel();
-		iconLabel.setIcon(UIManager.getIcon("OptionPane.questionIcon"));
-		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
 		// Apply rounded shape to the dialog
 		setShape(new RoundRectangle2D.Double(0, 0, 300, 150, 20, 20)); // Rounded corners
 
@@ -97,6 +93,9 @@ public class ModernInputDialog extends JDialog {
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
 		// Add multiline support using HTML in JLabel
+		iconLabel = new JLabel();
+		iconLabel.setIcon(UIManager.getIcon("OptionPane.questionIcon"));
+		iconLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		messagePanel = new JPanel(new BorderLayout(0, 10));
 		messagePanel.setOpaque(false);
 		messageLabel = new JLabel("<html><font color='" + getHexColor(txtColor) + "'>"
@@ -109,23 +108,23 @@ public class ModernInputDialog extends JDialog {
 		subtitleText.setFont(new Font("Arial", Font.ITALIC, 14));
 
 		userMessage = new TextArea();
-		userMessage.setFont(new Font("Arial", Font.BOLD, 16));
+		userMessage.setFont(new Font("Arial", Font.BOLD, 14));
 		userMessage.setForeground(Color.black);
 
-		messagePanel.add(messageLabel, BorderLayout.NORTH);
-		messagePanel.add(subtitleText, BorderLayout.CENTER);
-		messagePanel.add(userMessage, BorderLayout.SOUTH);
+		messagePanel.add(iconLabel, BorderLayout.NORTH);
+		messagePanel.add(messageLabel, BorderLayout.CENTER);
+		messagePanel.add(subtitleText, BorderLayout.SOUTH);
 
 		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
 		buttonPanel.setOpaque(false); // Transparent background for buttons
 
 		// Spacing
-		iconLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0)); // Adds space below the icon
-		messagePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 8, 0)); // Adds space above and below the message
+		messagePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0)); // Adds space below the icon
+		userMessage.setBorder(BorderFactory.createEmptyBorder(5, 5, 8, 5)); // Adds space above and below the message
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0)); // Adds space above the button panel
 
-		panel.add(iconLabel, BorderLayout.NORTH); // Icon on top
-		panel.add(messagePanel, BorderLayout.CENTER);
+		panel.add(messagePanel, BorderLayout.NORTH); // Icon on top
+		panel.add(userMessage, BorderLayout.CENTER);
 		panel.add(buttonPanel, BorderLayout.SOUTH);
 		add(panel);
 
@@ -260,7 +259,7 @@ public class ModernInputDialog extends JDialog {
 	private void adjustDialogSize() {
 		int messageHeight = messagePanel.getPreferredSize().height;
 		int buttonPanelHeight = buttonPanel.getPreferredSize().height;
-		int iconHeigh = iconLabel.getPreferredSize().height;
+		int iconHeigh = userMessage.getPreferredSize().height;
 
 		// Calculate preferred width based on the buttons
 		int totalButtonWidth = calculateTotalButtonWidth();
