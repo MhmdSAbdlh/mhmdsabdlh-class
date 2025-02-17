@@ -108,7 +108,7 @@ public class UpdateDialog extends JDialog {
 
 		subtitleText = new JLabel(
 				"<html><font color='" + getHexColor(txtColor) + "'>" + "".replace("\n", "<br>") + "</font></html>",
-				JLabel.CENTER);
+				JLabel.LEFT);
 		subtitleText.setFont(new Font("Arial", Font.ITALIC, 14));
 
 		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
@@ -251,7 +251,7 @@ public class UpdateDialog extends JDialog {
 	// method to add a subtitle
 	public void addSubText(String text, Color color) {
 		String formattedText = text.replace("\n", "<br>");
-		subtitleText.setText("<html><div style='text-align:center;'><font color='" + getHexColor(color) + "'>"
+		subtitleText.setText("<html><div style='text-align:left;'><font color='" + getHexColor(color) + "'>"
 				+ formattedText + "</font></div></html>");
 		adjustDialogSize();
 	}

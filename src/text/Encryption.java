@@ -80,4 +80,8 @@ public class Encryption {
 			shuffledList.add(key.charAt(i));
 	}
 
+	public String getKey() {
+		return key;
+	}
+	
 }
