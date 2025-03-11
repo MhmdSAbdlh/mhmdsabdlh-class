@@ -1,6 +1,7 @@
 package mhmdsabdlh.component;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -83,6 +84,7 @@ public class Dock extends JPanel {
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
 		button.setContentAreaFilled(false);
+		button.setCursor(new Cursor(java.awt.Frame.HAND_CURSOR));
 
 		button.addMouseListener(new MouseAdapter() {
 			@Override
