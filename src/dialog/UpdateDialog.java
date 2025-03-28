@@ -34,8 +34,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import mhmdsabdlh.component.OverlayPanel;
 import mhmdsabdlh.component.RoundButton;
+import mhmdsabdlh.component.OverlayPanel.OverlayPanel;
 import mhmdsabdlh.images.ImageEffect;
 
 public class UpdateDialog extends JDialog {

@@ -34,9 +34,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
-import mhmdsabdlh.component.OverlayPanel;
 import mhmdsabdlh.component.RoundButton;
 import mhmdsabdlh.component.TextArea;
+import mhmdsabdlh.component.OverlayPanel.OverlayPanel;
 
 public class ModernInputDialog extends JDialog {
 
