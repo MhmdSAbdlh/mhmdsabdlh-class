@@ -96,7 +96,7 @@ public class ModernDialog extends JDialog {
 		// Add multiline support using HTML in JLabel
 		messagePanel = new JPanel(new BorderLayout(0, 10));
 		messagePanel.setOpaque(false);
-		messageLabel = new JLabel("<html><font color='" + getHexColor(txtColor) + "'>"
+		messageLabel = new JLabel("<html><font color='" + getHexColor(txtColor) + "' style='padding:10px;'>"
 				+ closeMessage.replace("\n", "<br>") + "</font></html>", JLabel.CENTER);
 		messageLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
@@ -327,7 +327,7 @@ public class ModernDialog extends JDialog {
 
 	private void updateLabelText() {
 		if (txtColor != null && messageLabel != null)
-			messageLabel.setText("<html><font color='" + getHexColor(txtColor) + "'>"
+			messageLabel.setText("<html><font color='" + getHexColor(txtColor) + "'  style='padding:10px;'>"
 					+ closeMessage.replace("\n", "<br>") + "</font></html>");
 	}
 

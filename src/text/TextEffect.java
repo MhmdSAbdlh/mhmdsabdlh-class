@@ -45,9 +45,18 @@ public class TextEffect {
 	}
 
 	// Check the input text if it is a number
-	public static boolean isNumeric(String number) {
+	public static boolean isInteger(String number) {
 		try {
 			Integer.parseInt(number);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+
+	public static boolean isDouble(String number) {
+		try {
+			Double.parseDouble(number);
 			return true;
 		} catch (NumberFormatException e) {
 			return false;
@@ -79,4 +88,33 @@ public class TextEffect {
 			textField.setFont(new Font(currentFont.getName(), currentFont.getStyle(), defaultFontSize));
 		}
 	}
+
+	public static String toRoman(int number) {
+		if (number <= 0 || number > 3999) {
+			throw new IllegalArgumentException("Number must be between 1 and 3999");
+		}
+
+		String[] romanNumerals = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+		int[] values = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+
+		StringBuilder result = new StringBuilder();
+
+		for (int i = 0; i < values.length; i++) {
+			while (number >= values[i]) {
+				result.append(romanNumerals[i]);
+				number -= values[i];
+			}
+		}
+		return result.toString();
+	}
+
+	/* return the double */
+	public static double roundedDouble(double value) {
+		return Math.round(value * 100.0) / 100.0;
+	}
+
+	public static int convertDoubleToInt(double input) {
+		return (int) Math.round(input);
+	}
+
 }
