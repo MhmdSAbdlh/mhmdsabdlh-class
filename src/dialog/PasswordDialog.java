@@ -22,6 +22,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
@@ -29,14 +30,15 @@ import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import mhmdsabdlh.component.PasswordField;
+import com.formdev.flatlaf.FlatClientProperties;
+
 import mhmdsabdlh.component.RoundButton;
 
 public class PasswordDialog extends JDialog {
 
 	private JPanel buttonPanel, inPanel;
 	private JLabel messageLabel, iconLabel, tryLeft;
-	private PasswordField passwordField;
+	private JPasswordField passwordField;
 	private String correctPassword;
 	private Color panelColor, txtColor;
 	private MessageType messageType = MessageType.CANCEL;
@@ -45,6 +47,7 @@ public class PasswordDialog extends JDialog {
 
 	public PasswordDialog(JFrame parent) {
 		super(parent, "LOCK", true);
+
 		this.txtColor = Color.BLACK;
 
 		// Customize dialog's look
@@ -92,10 +95,11 @@ public class PasswordDialog extends JDialog {
 		messageLabel.setFont(new Font("Arial", Font.BOLD, 16));
 		messageLabel.setPreferredSize(new Dimension(400, 50));
 
-		passwordField = new PasswordField();
+		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Arial", Font.PLAIN, 18));
 		passwordField.setHorizontalAlignment(0);
 		passwordField.setForeground(Color.black);
+		passwordField.putClientProperty(FlatClientProperties.OUTLINE, Color.black);
 		passwordField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
@@ -151,7 +155,6 @@ public class PasswordDialog extends JDialog {
 
 		// Spacing
 		messageLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0)); // Adds space below the icon
-		passwordField.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0)); // Adds space abo
 		tryLeft.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0)); // Adds space above th
 
 		inPanel.add(messageLabel, BorderLayout.NORTH);

@@ -16,8 +16,7 @@ public class OverlayPanel extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(
-				new Color(overlayColor.getRed(), overlayColor.getGreen(), overlayColor.getBlue(), (int) (alpha * 255))); // Alpha
-																															// transparency
+				new Color(overlayColor.getRed(), overlayColor.getGreen(), overlayColor.getBlue(), (int) (alpha * 255)));
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 	}
 
