@@ -30,6 +30,7 @@ public class TextArea extends JTextArea {
 		setWrapStyleWord(true); // Wrap at word boundaries
 		enableEnterKey();
 		setRows(3);
+        setAutoscrolls(true);
 	}
 
 	// Ensure the Enter key works as expected

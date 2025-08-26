@@ -12,9 +12,11 @@ import javax.swing.text.Document;
 
 public class PlaceholderPasswordField extends JPasswordField {
     private String placeholder;
+    private Color color = Color.gray;
 
-    public PlaceholderPasswordField(String placeholder) {
+    public PlaceholderPasswordField(String placeholder, Color color) {
         this.placeholder = placeholder;
+        this.color = color;
     }
 
     public PlaceholderPasswordField(String placeholder, int columns) {
@@ -35,6 +37,11 @@ public class PlaceholderPasswordField extends JPasswordField {
     public String getPlaceholder() {
         return placeholder;
     }
+    
+    public void setPlaceHoldeColor(Color color) {
+    	this.color = color;
+    	repaint();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -42,7 +49,7 @@ public class PlaceholderPasswordField extends JPasswordField {
 
         if (getText().isEmpty() && placeholder != null) {
             Graphics2D g2 = (Graphics2D) g.create();
-            g2.setColor(Color.GRAY);
+            g2.setColor(color);
             g2.setFont(new Font(getFont().getName(),Font.PLAIN,10));
             Insets insets = getInsets();
             FontMetrics fm = g2.getFontMetrics();
