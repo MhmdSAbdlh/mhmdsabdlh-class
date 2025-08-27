@@ -78,7 +78,7 @@ public class PasswordDialog extends JDialog {
 				// Set border color and thickness
 				g2.setColor(txtColor); // Example border color
 				g2.setStroke(new BasicStroke(1)); // Example border thickness (3 pixels)
-				g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10); // Draw border with small padding
+				g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 10, 10); // Draw border with small padding
 			}
 		};
 		panel.setLayout(new BorderLayout());
@@ -141,7 +141,7 @@ public class PasswordDialog extends JDialog {
 
 				// Check if it matches the correct password
 				if (enteredPassword.equals(correctPassword)) {
-					startFadeOut(() -> dispose());
+					startFadeOut(() -> okAction());
 				}
 			}
 		});

@@ -1,12 +1,45 @@
 package mhmdsabdlh.dialog;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatClientProperties;
 
@@ -63,7 +96,7 @@ public class UpdateDialog extends JDialog {
 				// Set border color and thickness
 				g2.setColor(txtColor); // Example border color
 				g2.setStroke(new BasicStroke(1)); // Example border thickness (3 pixels)
-				g2.drawRoundRect(1, 1, getWidth() - 2, getHeight() - 2, 10, 10); // Draw border with small padding
+				g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 10, 10); // Draw border with small padding
 			}
 		};
 		panel.setLayout(new BorderLayout(0, 10));

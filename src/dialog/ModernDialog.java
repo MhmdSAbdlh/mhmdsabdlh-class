@@ -82,7 +82,7 @@ public class ModernDialog extends JDialog {
 				// Set border color and thickness
 				g2.setColor(txtColor);
 				g2.setStroke(new BasicStroke(1));
-				g2.drawRoundRect(0, 0, getWidth() - 2, getHeight() - 2, 10, 10);
+				g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 10, 10);
 			}
 		};
 		panel.setLayout(new BorderLayout());
