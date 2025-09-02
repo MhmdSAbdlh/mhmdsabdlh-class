@@ -37,4 +37,11 @@ public class OverlayPanel extends JPanel {
 	public Color getOverlayColor() {
 		return this.overlayColor;
 	}
+
+	public boolean isShowing() {
+		if (alpha > 0)
+			return true;
+		else
+			return false;
+	}
 }

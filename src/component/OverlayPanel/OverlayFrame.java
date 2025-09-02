@@ -5,15 +5,15 @@ import javax.swing.JLayeredPane;
 import javax.swing.Timer;
 
 public class OverlayFrame {
-	
+
 	private OverlayPanel overlay;
 	private JFrame fram;
-	
+
 	public OverlayFrame(JFrame frame) {
 		this.fram = frame;
 		init();
 	}
-	
+
 	private void init() {
 		overlay = new OverlayPanel();
 		overlay.setBounds(0, 0, fram.getWidth(), fram.getHeight());
@@ -22,7 +22,7 @@ public class OverlayFrame {
 		overlay.setVisible(false);
 		fram.getLayeredPane().add(overlay, JLayeredPane.PALETTE_LAYER);
 	}
-	
+
 	public void showOverlay() {
 		overlay.setAlpha(0);
 		overlay.setVisible(true);
@@ -53,5 +53,11 @@ public class OverlayFrame {
 		});
 		fadeOutTimer.start(); // Start fade-out effect
 	}
-	
+
+	public boolean isShowing() {
+		if (overlay.isVisible())
+			return true;
+		else
+			return false;
+	}
 }
