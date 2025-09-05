@@ -113,8 +113,22 @@ public class TextEffect {
 		return Math.round(value * 100.0) / 100.0;
 	}
 
+	/* Convert double to int */
 	public static int convertDoubleToInt(double input) {
 		return (int) Math.round(input);
 	}
 
+	/* Add space between letters */
+	public static String addSpaces(String input) {
+		if (input == null || input.isEmpty())
+			return input;
+
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < input.length(); i++) {
+			result.append(input.charAt(i));
+			if (i < input.length() - 1)
+				result.append(" ");
+		}
+		return result.toString();
+	}
 }

@@ -10,11 +10,22 @@ public class IconWithText implements Icon {
 		TOP, BOTTOM, LEFT, RIGHT, CENTER, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
 	}
 
-	private final ImageIcon imageIcon;
-	private final String text;
-	private final Color textColor;
-	private final Position position;
-	private final Font font; // Add fontSize as a parameter
+	private ImageIcon imageIcon;
+	private String text;
+	private Color textColor;
+	private Position position;
+	private Font font; // Add fontSize as a parameter
+	private boolean round;
+
+	public IconWithText(ImageIcon imageIcon, String text, Color textColor, Position position, Font font,
+			boolean round) {
+		this.imageIcon = imageIcon;
+		this.text = text;
+		this.textColor = textColor;
+		this.position = position;
+		this.font = font;
+		this.round = round;
+	}
 
 	public IconWithText(ImageIcon imageIcon, String text, Color textColor, Position position, Font font) {
 		this.imageIcon = imageIcon;
@@ -22,6 +33,7 @@ public class IconWithText implements Icon {
 		this.textColor = textColor;
 		this.position = position;
 		this.font = font;
+		this.round = true;
 	}
 
 	public IconWithText(ImageIcon imageIcon, String text, Color textColor, Position position) {
@@ -30,6 +42,7 @@ public class IconWithText implements Icon {
 		this.textColor = textColor;
 		this.position = position;
 		this.font = new Font("Arial", Font.BOLD, 18);
+		this.round = true;
 	}
 
 	public IconWithText(ImageIcon imageIcon, String text, Color textColor) {
@@ -38,6 +51,31 @@ public class IconWithText implements Icon {
 		this.textColor = textColor;
 		this.position = Position.CENTER;
 		this.font = new Font("Arial", Font.BOLD, 18);
+		this.round = true;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public void setTextColor(Color color) {
+		this.textColor = color;
+	}
+
+	public void setPosition(Position pos) {
+		this.position = pos;
+	}
+
+	public void setFont(Font font) {
+		this.font = font;
+	}
+
+	public void setRound(boolean round) {
+		this.round = round;
+	}
+
+	public void setImageIcon(ImageIcon imageIcon) {
+		this.imageIcon = imageIcon;
 	}
 
 	@Override
@@ -109,10 +147,17 @@ public class IconWithText implements Icon {
 			break;
 		}
 		// Set the background color to semi-transparent white (alpha value < 255)
-		g2d.setColor(new Color(255, 255, 255, 180)); // Semi-transparent white
-		int padding = 4; // Padding around the text
-		// Draw the transparent background for the text
-		g2d.fillRect(textX - padding, textY - textHeight, textWidth + 2 * padding, textHeight + 2 * padding);
+		if (round) {
+			g2d.setColor(new Color(255, 255, 255, 180)); // Semi-transparent white
+			int padding = 3; // Padding around the text
+			g2d.fillRoundRect(textX - padding, textY - textHeight, textWidth + 2 * padding, textHeight + 2 * padding,
+					15, 15 // arc width/height -> more = rounder
+			);
+		} else {
+			g2d.setColor(new Color(255, 255, 255, 180));
+			int padding = 4;
+			g2d.fillRect(textX - padding, textY - textHeight, textWidth + 2 * padding, textHeight + 2 * padding);
+		}
 
 		// Set the text color back to the desired text color
 		g.setColor(textColor);
