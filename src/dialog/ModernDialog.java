@@ -187,10 +187,15 @@ public class ModernDialog extends JDialog {
 	}
 
 	// method to add a subtitle
+	public void setText(String closeMessage) {
+		this.closeMessage = closeMessage;
+		updateLabelText();
+	}
+
+	// method to add a subtitle
 	public void addSubText(String text, Color color) {
-		String formattedText = text.replace("\n", "<br>");
 		subtitleText.setText("<html><div style='font-family: Arial; font-size: 10px; color:" + getHexColor(color)
-				+ "; font-style: italic;'>" + formattedText.replace("\n", "<br>") + "</div></html>");
+				+ "; font-style: italic;'>" + text.replace("\n", "<br>") + "</div></html>");
 		adjustDialogSize();
 	}
 

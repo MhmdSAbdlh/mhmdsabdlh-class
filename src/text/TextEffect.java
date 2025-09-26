@@ -131,4 +131,5 @@ public class TextEffect {
 		}
 		return result.toString();
 	}
+
 }
